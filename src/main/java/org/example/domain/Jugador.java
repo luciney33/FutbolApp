@@ -11,5 +11,12 @@ public class Jugador {
     private int goles;
     private int asistencias;
     private LocalDate fechaNac;
+    private String posicion;
+
+    public int calcularEdad();
+    public double calcularPromedioGolesPorPartido(int totalPartidos);
+    public void incrementarGoles(int cantidad);
+    public void incrementarAsistencias(int cantidad);
+    public boolean haSuperadoA(Jugador otroJugador);
 
 }
