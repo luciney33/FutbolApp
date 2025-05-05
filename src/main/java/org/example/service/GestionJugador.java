@@ -1,4 +1,14 @@
 package org.example.service;
 
-public interface GestionJugador {
+import org.example.domain.Jugador;
+
+import java.util.List;
+
+public interface GestionJugador{
+    public boolean añadirJugadorSiNoExiste(Jugador jugador);
+    public boolean eliminarJugadorPorId(String id);
+    public Jugador obtenerJugadorMasJoven();
+    public Jugador obtenerJugadorMasGoleador();
+    public List<Jugador> listarJugadores();
+    public void mostrarEstadisticas();
 }
