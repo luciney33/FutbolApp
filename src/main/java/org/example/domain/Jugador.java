@@ -1,8 +1,8 @@
 package org.example.domain;
 import lombok.Data;
-
+import org.example.common.ExcepcionAsistencias;
+import org.example.common.ExcepcionGoles;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 
 @Data
@@ -17,23 +17,34 @@ public class Jugador {
 
     public int calcularEdad(){
         LocalDate fechaAct = LocalDate.now();
-        return (int) ChronoUnit.YEARS.between(fechaAct, fechaNac);
+        return (int) ChronoUnit.YEARS.between(fechaNac, fechaAct);
     }
     public double calcularPromedioGolesPorPartido(int totalPartidos){
         double promedio = 0;
         if(totalPartidos > 0){
             promedio = (double) goles / totalPartidos;
         }else{
-            System.out.println("Ingrese los partidos");
+            System.out.println("ingrese los partidos");
         }
         return promedio;
     }
-    public void incrementarGoles(int cantidad){}
-    public void incrementarAsistencias(int cantidad){}
+    public void incrementarGoles(int cantidad) throws ExcepcionGoles {
+        if(cantidad > 0){
+            goles += cantidad;
+        }else{
+            throw new ExcepcionGoles();
+        }
+    }
+    public void incrementarAsistencias(int cantidad2) throws ExcepcionAsistencias {
+        if(cantidad2 > 0){
+            asistencias += cantidad2;
+        }else{
+            throw new ExcepcionAsistencias();
+        }
+    }
 
     public boolean haSuperadoA(Jugador otroJugador){
-        boolean superado = false;
-        if(goles.)
+        return this.goles > otroJugador.getGoles();
     }
 
 }

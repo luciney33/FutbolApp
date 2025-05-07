@@ -5,9 +5,8 @@ import org.example.domain.Equipo;
 public class EquipoDaoImplementacion implements EquipoDAO{
     private Equipos lista;
     @Override
-    public boolean añadirEquipo(Equipo equipo) {
-        lista.
-        return false;
+    public boolean insertarEquipo(Equipo equipo) {
+        return lista.insertarEquipo(equipo);
     }
 
     @Override

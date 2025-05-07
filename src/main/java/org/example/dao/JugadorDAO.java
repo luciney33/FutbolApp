@@ -4,8 +4,8 @@ import org.example.domain.Jugador;
 
 import java.util.List;
 
-public interface JugadorDA0 {
-    public void añadirJugador(Jugador jugador);
+public interface JugadorDAO {
+    public void insertarJugador(Jugador jugador);
     public void eliminarJugador(Jugador jugador);
     public void modificarJugador(Jugador jugador);
     public List<Jugador> getTodosLosJugadores();

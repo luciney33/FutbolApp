@@ -5,7 +5,7 @@ import org.example.domain.Jugador;
 import java.util.List;
 
 public interface GestionJugador{
-    public boolean añadirJugadorSiNoExiste(Jugador jugador);
+    public boolean insertarJugadorSiNoExiste(Jugador jugador);
     public boolean eliminarJugadorPorId(String id);
     public Jugador obtenerJugadorMasJoven();
     public Jugador obtenerJugadorMasGoleador();
