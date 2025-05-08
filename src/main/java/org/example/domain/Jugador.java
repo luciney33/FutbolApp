@@ -4,6 +4,7 @@ import org.example.common.ExcepcionAsistencias;
 import org.example.common.ExcepcionGoles;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 @Data
 public class Jugador {
@@ -47,4 +48,15 @@ public class Jugador {
         return this.goles > otroJugador.getGoles();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Jugador jugador = (Jugador) o;
+        return Objects.equals(id, jugador.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

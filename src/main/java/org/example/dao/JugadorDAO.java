@@ -10,10 +10,4 @@ public interface JugadorDAO {
     public void modificarJugador(Jugador jugador);
     public List<Jugador> getTodosLosJugadores();
     public Jugador buscarPorId(String id);
-    public void verEstadisticas();
-    public int calcularEdad();
-    public double calcularPromedioGolesPorPartido(int totalPartidos);
-    public void incrementarGoles(int cantidad);
-    public void incrementarAsistencias(int cantidad);
-    public boolean haSuperadoA(Jugador otroJugador);
 }

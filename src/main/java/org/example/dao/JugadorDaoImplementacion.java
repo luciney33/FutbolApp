@@ -2,9 +2,12 @@ package org.example.dao;
 
 import org.example.domain.Jugador;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class JugadorDaoImplementacion implements JugadorDAO{
+    private Set<Jugador>jugadores = new HashSet<>();
 
     @Override
     public void insertarJugador(Jugador jugador) {
@@ -31,33 +34,4 @@ public class JugadorDaoImplementacion implements JugadorDAO{
         return null;
     }
 
-    @Override
-    public void verEstadisticas() {
-
-    }
-
-    @Override
-    public int calcularEdad() {
-        return 0;
-    }
-
-    @Override
-    public double calcularPromedioGolesPorPartido(int totalPartidos) {
-        return 0;
-    }
-
-    @Override
-    public void incrementarGoles(int cantidad) {
-
-    }
-
-    @Override
-    public void incrementarAsistencias(int cantidad) {
-
-    }
-
-    @Override
-    public boolean haSuperadoA(Jugador otroJugador) {
-        return false;
-    }
 }
