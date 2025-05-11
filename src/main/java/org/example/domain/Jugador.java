@@ -16,6 +16,16 @@ public class Jugador {
     private LocalDate fechaNac;
     private String posicion;
 
+    public Jugador(String id, String nombre, String equipo, int goles, int asistencias, LocalDate fechaNac, String posicion) {
+        this.id = id;
+        this.nombre = nombre;
+        this.equipo = equipo;
+        this.goles = goles;
+        this.asistencias = asistencias;
+        this.fechaNac = fechaNac;
+        this.posicion = posicion;
+    }
+
     public int calcularEdad(){
         LocalDate fechaAct = LocalDate.now();
         return (int) ChronoUnit.YEARS.between(fechaNac, fechaAct);

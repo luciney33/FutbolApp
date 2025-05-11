@@ -3,11 +3,13 @@ package org.example.dao;
 import org.example.domain.Jugador;
 
 import java.util.List;
+import java.util.Set;
 
 public interface JugadorDAO {
-    public void insertarJugador(Jugador jugador);
+    public Set<Jugador> getJugadores();
+    public boolean insertarJugador(Jugador jugador);
     public void eliminarJugador(Jugador jugador);
-    public void modificarJugador(Jugador jugador);
-    public List<Jugador> getTodosLosJugadores();
+    public boolean modificarJugador(int goles, int asistencias, String equipo);
+    public Set<Jugador> getTodosLosJugadores();
     public Jugador buscarPorId(String id);
 }
