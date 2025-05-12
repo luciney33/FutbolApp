@@ -1,10 +1,12 @@
 package org.example.domain;
 import lombok.Data;
+import net.datafaker.Faker;
 import org.example.common.ExcepcionAsistencias;
 import org.example.common.ExcepcionGoles;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+import java.util.Random;
 
 @Data
 public class Jugador {
@@ -24,6 +26,13 @@ public class Jugador {
         this.asistencias = asistencias;
         this.fechaNac = fechaNac;
         this.posicion = posicion;
+    }
+
+    public Jugador() {
+        Random random = new Random();
+        this.id = String.valueOf(random.nextInt(100));
+        this.equipo = new Faker().football().teams();
+        this.nombreEquipo= "nombre";
     }
 
     public int calcularEdad(){

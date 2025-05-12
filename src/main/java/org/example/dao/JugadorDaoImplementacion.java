@@ -15,12 +15,7 @@ public class JugadorDaoImplementacion implements JugadorDAO{
     public JugadorDaoImplementacion() {
         this.jugadores = new HashSet<Jugador>();
         Random random = new Random();
-        String nombre = "nombre";
 
-
-        for (int i = 0; i < 5; i++) {
-            jugadores.add(new Jugador(String.valueOf(random.nextInt(100)), new Faker().football().teams()));
-        }
     }
 
     @Override
