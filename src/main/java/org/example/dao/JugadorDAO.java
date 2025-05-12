@@ -9,7 +9,7 @@ public interface JugadorDAO {
     public Set<Jugador> getJugadores();
     public boolean insertarJugador(Jugador jugador);
     public void eliminarJugador(Jugador jugador);
-    public boolean modificarJugador(int goles, int asistencias, String equipo);
+    public boolean modificarJugador(String id, int goles, int asistencias, String equipo);
     public Set<Jugador> getTodosLosJugadores();
     public Jugador buscarPorId(String id);
 }

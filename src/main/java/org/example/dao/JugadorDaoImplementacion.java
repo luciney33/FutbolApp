@@ -34,10 +34,10 @@ public class JugadorDaoImplementacion implements JugadorDAO{
     }
 
     @Override
-    public boolean modificarJugador(int goles, int asistencias, String equipo) {
+    public boolean modificarJugador(String id ,int goles, int asistencias, String equipo) {
         boolean encontrado = false;
         for (int i = 0; i < jugadores.size(); i++) {
-            Jugador j
+            Jugador j = jugadores.g
         }
 
         return false;
