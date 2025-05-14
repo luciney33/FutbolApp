@@ -29,9 +29,6 @@ public class Jugador {
     }
 
     public Jugador() {
-        Random random = new Random();
-        this.id = String.valueOf(random.nextInt(100));
-        this.equipo = new Faker().football().teams();
     }
 
     public int calcularEdad(){

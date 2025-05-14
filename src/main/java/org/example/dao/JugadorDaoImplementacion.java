@@ -3,54 +3,44 @@ package org.example.dao;
 
 import net.datafaker.Faker;
 import org.example.domain.Jugador;
+import org.example.domain.Liga;
 
 import java.util.*;
 
-public class JugadorDaoImplementacion implements JugadorDAO{
-    private Set<Jugador> jugadores;
+public class JugadorDaoImplementacion implements JugadorDAO {
+    private Liga liga;
 
-    public JugadorDaoImplementacion(Set<Jugador> jugadores) {
-        this.jugadores = jugadores;
-    }
-    public JugadorDaoImplementacion() {
-        this.jugadores = new HashSet<Jugador>();
-        Random random = new Random();
-
+    public JugadorDaoImplementacion(Liga liga) {
+        this.liga = liga;
     }
 
     @Override
     public Set<Jugador> getJugadores() {
-        return jugadores;
+        return Set.of();
     }
 
     @Override
     public boolean insertarJugador(Jugador jugador) {
-        return jugadores.add(jugador);
+        return false;
     }
 
     @Override
     public void eliminarJugador(Jugador jugador) {
-        jugadores.remove(jugador);
+
     }
 
     @Override
-    public boolean modificarJugador(String id ,int goles, int asistencias, String equipo) {
-        boolean encontrado = false;
-        for (int i = 0; i < jugadores.size(); i++) {
-            Jugador j = jugadores.g
-        }
-
+    public boolean modificarJugador(String id, int goles, int asistencias, String equipo) {
         return false;
     }
 
     @Override
     public Set<Jugador> getTodosLosJugadores() {
-        return;
+        return Set.of();
     }
 
     @Override
     public Jugador buscarPorId(String id) {
         return null;
     }
-
 }
