@@ -1,7 +1,6 @@
 package org.example.dao;
 
 
-import net.datafaker.Faker;
 import org.example.domain.Jugador;
 import org.example.domain.Liga;
 
@@ -16,17 +15,17 @@ public class JugadorDaoImplementacion implements JugadorDAO {
 
     @Override
     public Set<Jugador> getJugadores() {
-        return Set.of();
+        return liga.getJugadores();
     }
 
     @Override
     public boolean insertarJugador(Jugador jugador) {
-        return false;
+        return liga.getJugadores().add(jugador);
     }
 
     @Override
-    public void eliminarJugador(Jugador jugador) {
-
+    public boolean eliminarJugador(Jugador jugador) {
+        return liga.getJugadores().remove(jugador);
     }
 
     @Override

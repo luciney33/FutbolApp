@@ -28,9 +28,6 @@ public class Jugador {
         this.posicion = posicion;
     }
 
-    public Jugador() {
-    }
-
     public int calcularEdad(){
         LocalDate fechaAct = LocalDate.now();
         return (int) ChronoUnit.YEARS.between(fechaNac, fechaAct);
