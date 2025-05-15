@@ -29,17 +29,18 @@ public class JugadorDaoImplementacion implements JugadorDAO {
     }
 
     @Override
-    public boolean modificarJugador(String id, int goles, int asistencias, String equipo) {
-        return false;
+    public void modificarJugador(int id, int goles, int asistencias, String equipo) {
+        liga.getJugadores().stream().filter(j -> j.getId() == id).findAny().ifPresent(j ->
+        {
+            j.setGoles(goles);
+            j.setAsistencias(asistencias);
+            j.setEquipo(equipo);
+        });
+
     }
 
     @Override
-    public Set<Jugador> getTodosLosJugadores() {
-        return Set.of();
-    }
-
-    @Override
-    public Jugador buscarPorId(String id) {
+    public Jugador buscarPorId(int id) {
         return null;
     }
 }

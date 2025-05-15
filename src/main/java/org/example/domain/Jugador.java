@@ -10,7 +10,7 @@ import java.util.Random;
 
 @Data
 public class Jugador {
-    private String id;
+    private int id;
     private String nombre;
     private String equipo;
     private int goles;
@@ -18,7 +18,7 @@ public class Jugador {
     private LocalDate fechaNac;
     private String posicion;
 
-    public Jugador(String id, String nombre, String equipo, int goles, int asistencias, LocalDate fechaNac, String posicion) {
+    public Jugador(int id, String nombre, String equipo, int goles, int asistencias, LocalDate fechaNac, String posicion) {
         this.id = id;
         this.nombre = nombre;
         this.equipo = equipo;
