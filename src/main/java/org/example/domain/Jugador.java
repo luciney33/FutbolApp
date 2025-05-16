@@ -1,16 +1,17 @@
 package org.example.domain;
 import lombok.Data;
-import net.datafaker.Faker;
+import lombok.EqualsAndHashCode;
 import org.example.common.ExcepcionAsistencias;
 import org.example.common.ExcepcionGoles;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Objects;
-import java.util.Random;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 public class Jugador {
+    @EqualsAndHashCode.Include
     private int id;
+
     private String nombre;
     private String equipo;
     private int goles;
@@ -60,15 +61,4 @@ public class Jugador {
         return this.goles > otroJugador.getGoles();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Jugador jugador = (Jugador) o;
-        return Objects.equals(id, jugador.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
 }

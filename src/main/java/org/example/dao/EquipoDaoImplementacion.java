@@ -4,6 +4,7 @@ import org.example.domain.Equipo;
 import org.example.domain.Liga;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EquipoDaoImplementacion implements EquipoDAO{
     private Liga liga;
@@ -22,22 +23,25 @@ public class EquipoDaoImplementacion implements EquipoDAO{
     }
 
     @Override
-    public boolean eliminarEquipo(String id) {
-        return liga.getEquipos().remove(id);
+    public boolean eliminarEquipo(Equipo equipo) {
+        return liga.getEquipos().remove(equipo);
     }
 
     @Override
-    public boolean modificarEquipo(String id, String entrenador) {
-        return false;
+    public void modificarEquipo(int id, String entrenador) {
+        liga.getEquipos().stream().filter(e->e.getId() == id).findAny().ifPresent(e ->
+        {
+            e.setEntrenador(entrenador);
+        });
     }
 
     @Override
-    public Equipo buscarPorId(String id) {
-        return null;
+    public Equipo buscarPorId(int id) {
+        return liga.getEquipos().stream().filter(e -> e.getId() == id).findFirst().orElse(null);
     }
 
     @Override
     public Set<Equipo> buscarPorCiudad(String ciudad) {
-        return Set.of();
+        return liga.getEquipos().stream().filter(e -> e.getCiudad().equals(ciudad)).collect(Collectors.toSet());
     }
 }

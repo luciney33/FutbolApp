@@ -27,9 +27,10 @@ public class DatosAleatorios {
         Random r = new Random();
         int id = r.nextInt(100);
         String nombre = f.football().teams();
-        String estadio = "Estadio de "+ f.address().cityName();
+        String ciudad = f.address().cityName();
+        String estadio = "Estadio de "+ ciudad;
         String entrenador = f.football().coaches();
-        return new Equipo(id,nombre,estadio,entrenador);
+        return new Equipo(id,nombre,ciudad,estadio,entrenador);
     }
     public static Partido crearPartidos() {
         return null;
