@@ -1,9 +1,6 @@
-package org.example.common;
+package org.example.domain;
 
 import net.datafaker.Faker;
-import org.example.domain.Equipo;
-import org.example.domain.Jugador;
-import org.example.domain.Partido;
 
 import java.time.LocalDate;
 import java.util.Random;
@@ -17,7 +14,7 @@ public class DatosAleatorios {
         String equipo = f.football().teams();
         int goles = r.nextInt(35);
         int asistencias = r.nextInt(25);
-        LocalDate fechaNac = LocalDate.of(r.nextInt(30), r.nextInt(12), r.nextInt(2005));
+        LocalDate fechaNac = LocalDate.of(r.nextInt(2005), r.nextInt(12), r.nextInt(30));
         String posicion = f.football().positions();
 
         return new Jugador(id, nombre, equipo, goles, asistencias, fechaNac, posicion);

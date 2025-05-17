@@ -1,7 +1,6 @@
 package org.example.dao;
 
 import org.example.domain.Equipo;
-import org.example.domain.Liga;
 
 import java.util.Set;
 import java.util.stream.Collectors;

@@ -1,87 +1,50 @@
 package org.example.service;
 
 import org.example.dao.JugadorDAO;
-import org.example.dao.JugadorDaoImplementacion;
 import org.example.domain.Jugador;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.IOException;
-import java.util.Set;
+import java.time.LocalDate;
 
-public class GestionJugadorImplementacionTest implements GestionJugador{
-    private JugadorDAO jugadorDAO;
-    public GestionJugadorImplementacionTest(JugadorDAO jugadorDAO){
-        this.jugadorDAO = jugadorDAO;
-    }
-    public GestionJugadorImplementacionTest() {
-        this.jugadorDAO = new JugadorDaoImplementacion();
-    }
-    @Override
-    public boolean insertarJugadorSiNoExiste(Jugador jugador) {
-        boolean insertarSi = false;
-        Jugador exite = jugadorDAO.buscarPorId(jugador.getId());
-        if (exite == null){
-            insertarSi = true;
-            jugadorDAO.insertarJugador(jugador);
-        }else {
-            insertarSi = false;
-            //aqui tengo una duda, pondria un sout diciendo "el jugador ya exite"
-            // pero se que aqui no esta bien poner mesnsajes seria mas en entrada y salida
-        }
-        return insertarSi;
-    }
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
-    @Override
-    public boolean eliminarJugadorPorId(int id) {
-        return false;
-    }
+@ExtendWith(MockitoExtension.class)
 
-    @Override
-    public Jugador obtenerJugadorMasJoven() {
-        return null;
+public class GestionJugadorImplementacionTest{
+    @Mock
+    JugadorDAO jugadorDAO;
+
+    @InjectMocks
+    GestionJugadorImplementacion gestionJugador;
+
+    Jugador jugador = new Jugador(1,"Pepe","Atleti",12,5, LocalDate.of(1999, 5, 12),"delantero");
+
+    @Test
+    void insertarJugadorSiNoExiste_devuelveTrue_siJugadorNoExiste() {
+        when(jugadorDAO.buscarPorId(1)).thenReturn(null);
+        when(jugadorDAO.insertarJugador(jugador)).thenReturn(true);
+
+        boolean resultado = gestionJugador.insertarJugadorSiNoExiste(jugador);
+
+        assertTrue(resultado);
+        verify(jugadorDAO).insertarJugador(jugador);
     }
 
-    @Override
-    public Jugador obtenerJugadorMasGoleador() {
-        return null;
+    @Test
+    void insertarJugadorSiNoExiste_devuelveFalse_siJugadorYaExiste() {
+        when(jugadorDAO.buscarPorId(1)).thenReturn(jugador);
+
+        boolean resultado = gestionJugador.insertarJugadorSiNoExiste(jugador);
+
+        assertFalse(resultado);
+        verify(jugadorDAO, never()).insertarJugador(any());
     }
 
-    @Override
-    public Set<Jugador> listarJugadores() {
-        return Set.of();
-    }
 
-    @Override
-    public void mostrarEstadisticas() {
-
-    }
-
-    @Override
-    public Set<Jugador> listarJugadoresPorEdadAscendente() {
-        return Set.of();
-    }
-
-    @Override
-    public Set<Jugador> filtrarPorEquipo(String nombreEquipo) {
-        return Set.of();
-    }
-
-    @Override
-    public Jugador buscarPorId(int id) {
-        return null;
-    }
-
-    @Override
-    public void crearFicheros() throws IOException {
-
-    }
-
-    @Override
-    public boolean cargarFichero() throws IOException {
-        return false;
-    }
-
-    @Override
-    public boolean escribirFichero() throws IOException {
-        return false;
-    }
 }

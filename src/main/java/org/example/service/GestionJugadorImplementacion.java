@@ -5,11 +5,12 @@ import org.example.dao.JugadorDaoImplementacion;
 import org.example.domain.Jugador;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Comparator;
 import java.util.Set;
 
 public class GestionJugadorImplementacion implements GestionJugador{
     private JugadorDAO jugadorDAO;
+
     public GestionJugadorImplementacion(JugadorDAO jugadorDAO){
         this.jugadorDAO = jugadorDAO;
     }
@@ -25,20 +26,26 @@ public class GestionJugadorImplementacion implements GestionJugador{
             jugadorDAO.insertarJugador(jugador);
         }else {
             insertarSi = false;
-            //aqui tengo una duda, pondria un sout diciendo "el jugador ya exite"
-            // pero se que aqui no esta bien poner mesnsajes seria mas en entrada y salida
         }
         return insertarSi;
     }
 
     @Override
     public boolean eliminarJugadorPorId(int id) {
-        return false;
+        boolean eliminarSi = false;
+        Jugador j = jugadorDAO.buscarPorId(id);
+        if (j != null){
+            eliminarSi = true;
+            jugadorDAO.eliminarJugador(j);
+        }else {
+            eliminarSi = false;
+        }
+        return eliminarSi;
     }
 
     @Override
     public Jugador obtenerJugadorMasJoven() {
-        return null;
+        return  jugadorDAO.getJugadores().stream().min(Comparator.comparing(Jugador::calcularEdad)).get();
     }
 
     @Override

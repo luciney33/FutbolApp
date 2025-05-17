@@ -2,15 +2,18 @@ package org.example.dao;
 
 
 import org.example.domain.Jugador;
-import org.example.domain.Liga;
 
 import java.util.*;
 
 public class JugadorDaoImplementacion implements JugadorDAO {
     private Liga liga;
 
-    public JugadorDaoImplementacion() {
+    public JugadorDaoImplementacion(Liga liga) {
         this.liga = liga;
+    }
+
+    public JugadorDaoImplementacion() {
+        liga = new Liga();
     }
 
     @Override

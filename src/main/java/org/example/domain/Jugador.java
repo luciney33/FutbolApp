@@ -28,6 +28,7 @@ public class Jugador {
         this.fechaNac = fechaNac;
         this.posicion = posicion;
     }
+    public Jugador(){}
 
     public int calcularEdad(){
         LocalDate fechaAct = LocalDate.now();
