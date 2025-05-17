@@ -1,5 +1,5 @@
 package org.example.service;
 
-public class GestionEquipoImplementacion {
+public class GestionEquipoImplementacionTest {
     // Lógica de negocio para equipos
 }

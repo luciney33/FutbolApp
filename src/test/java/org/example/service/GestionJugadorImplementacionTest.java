@@ -5,15 +5,14 @@ import org.example.dao.JugadorDaoImplementacion;
 import org.example.domain.Jugador;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 
-public class GestionJugadorImplementacion implements GestionJugador{
+public class GestionJugadorImplementacionTest implements GestionJugador{
     private JugadorDAO jugadorDAO;
-    public GestionJugadorImplementacion(JugadorDAO jugadorDAO){
+    public GestionJugadorImplementacionTest(JugadorDAO jugadorDAO){
         this.jugadorDAO = jugadorDAO;
     }
-    public GestionJugadorImplementacion() {
+    public GestionJugadorImplementacionTest() {
         this.jugadorDAO = new JugadorDaoImplementacion();
     }
     @Override
