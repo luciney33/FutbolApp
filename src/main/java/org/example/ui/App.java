@@ -2,10 +2,12 @@ package org.example.ui;
 
 import org.example.common.ExcepcionAsistencias;
 import org.example.common.ExcepcionGoles;
+import org.example.dao.Liga;
 import org.example.domain.Jugador;
 
 public class App {
     public static void main(String[] args) {
+        Liga liga = new Liga();
         Jugador jugador = new Jugador();
         int cantidad = -1;
         try{
