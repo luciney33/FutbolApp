@@ -11,13 +11,14 @@ public class EntradaSalida {
     }
 
     public static void mostrarError(String mensaje) {
-        System.err.println(mensaje);
+        System.out.println(mensaje);
     }
 
     public static String leerTexto(String mensaje) {
         System.out.print(mensaje + " ");
         return sc.nextLine().trim();
     }
+
 
     public static int leerEntero(String mensaje) {
         int numero = -1;
@@ -34,8 +35,8 @@ public class EntradaSalida {
         return numero;
     }
 
-    public static void mostrarSeparador() {
-        System.out.println(Constantes.SEPARADOR);
+    public static void mostrarSeparador(String mensaje) {
+        System.out.println(mensaje);
     }
 
     public static boolean leerConfirmacion(String mensaje) {

@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,7 +28,7 @@ public class GestionJugadorImplementacionTest{
 
     @Test
     void insertarJugadorSiNoExiste_devuelveTrue_siJugadorNoExiste() {
-        when(jugadorDAO.buscarPorId(1)).thenReturn(null);
+        when(jugadorDAO.buscarPorId(1)).thenReturn(Optional.empty());  // Cambiado null por Optional.empty()
         when(jugadorDAO.insertarJugador(jugador)).thenReturn(true);
 
         boolean resultado = gestionJugador.insertarJugadorSiNoExiste(jugador);
@@ -38,13 +39,12 @@ public class GestionJugadorImplementacionTest{
 
     @Test
     void insertarJugadorSiNoExiste_devuelveFalse_siJugadorYaExiste() {
-        when(jugadorDAO.buscarPorId(1)).thenReturn(jugador);
+        when(jugadorDAO.buscarPorId(anyInt())).thenReturn(Optional.of(jugador));
 
         boolean resultado = gestionJugador.insertarJugadorSiNoExiste(jugador);
 
         assertFalse(resultado);
         verify(jugadorDAO, never()).insertarJugador(any());
     }
-
 
 }

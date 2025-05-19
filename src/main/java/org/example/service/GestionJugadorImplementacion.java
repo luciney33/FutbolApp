@@ -6,6 +6,7 @@ import org.example.domain.Jugador;
 
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.Set;
 
 public class GestionJugadorImplementacion implements GestionJugador{
@@ -20,11 +21,11 @@ public class GestionJugadorImplementacion implements GestionJugador{
     @Override
     public boolean insertarJugadorSiNoExiste(Jugador jugador) {
         boolean insertarSi = false;
-        Jugador exite = jugadorDAO.buscarPorId(jugador.getId());
-        if (exite == null){
+        Optional<Jugador> existe = jugadorDAO.buscarPorId(jugador.getId());
+        if (existe.isEmpty()) {
             insertarSi = true;
             jugadorDAO.insertarJugador(jugador);
-        }else {
+        } else {
             insertarSi = false;
         }
         return insertarSi;
@@ -33,11 +34,11 @@ public class GestionJugadorImplementacion implements GestionJugador{
     @Override
     public boolean eliminarJugadorPorId(int id) {
         boolean eliminarSi = false;
-        Jugador j = jugadorDAO.buscarPorId(id);
-        if (j != null){
+        Optional<Jugador> j = jugadorDAO.buscarPorId(id);
+        if (j.isPresent()) {
             eliminarSi = true;
-            jugadorDAO.eliminarJugador(j);
-        }else {
+            jugadorDAO.eliminarJugador(j.get());
+        } else {
             eliminarSi = false;
         }
         return eliminarSi;

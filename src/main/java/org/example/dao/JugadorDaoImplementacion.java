@@ -43,7 +43,10 @@ public class JugadorDaoImplementacion implements JugadorDAO {
     }
 
     @Override
-    public Jugador buscarPorId(int id) {
-        return  liga.getJugadores().stream().filter(j -> j.getId() == id).findFirst().orElse(null);
+    public Optional<Jugador> buscarPorId(int id) {
+        return liga.getJugadores()
+                .stream()
+                .filter(j -> j.getId() == id)
+                .findFirst();
     }
 }
