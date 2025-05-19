@@ -1,26 +1,164 @@
 package org.example.ui;
 
 import org.example.common.Constantes;
+import org.example.common.ExcepcionAsistencias;
+import org.example.common.ExcepcionGoles;
+import org.example.dao.*;
+import org.example.domain.DatosAleatorios;
+import org.example.domain.Jugador;
+import org.example.service.GestionJugador;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class EntradaSalida {
-    public static final Scanner sc = new Scanner(System.in);
-    public static void mostrarMensaje(String mensaje) {
-        System.out.println(mensaje);
+    private final GestionJugador gestionJugador;
+    private final JugadorDAO jugadorDAO;
+    private final EquipoDAO equipoDAO;
+    private final DatosAleatorios generador;
+    private final Scanner sc;
+
+    public EntradaSalida() {
+        this.gestionJugador = gestionJugador;
+        Liga liga = new Liga();
+        this.jugadorDAO = new JugadorDaoImplementacion(liga);
+        this.equipoDAO = new EquipoDaoImplementacion(liga);
+        this.generador = new DatosAleatorios();
+        this.sc = new Scanner(System.in);
     }
 
-    public static void mostrarError(String mensaje) {
-        System.out.println(mensaje);
+    public void menuPrincipal() {
+        boolean salir = false;
+        mostrarMensaje(Constantes.BIENVENIDA);
+        while (!salir) {
+            mostrarSeparador(Constantes.SEPARADOR);
+            mostrarMensaje(Constantes.MENU_ROL);
+            int opc = leerEntero(Constantes.ELEGIR_OPCION);
+
+            switch (opc) {
+                case 1 :
+                    menuAdministrador();
+                    break;
+                case 2 :
+                    menuUsuario();
+                    break;
+                case 0 :
+                    salir = true;
+                    mostrarMensaje(Constantes.SALIR_APP);
+                default :
+                    mostrarError(Constantes.OPCION_INVALIDA);
+            }
+        }
+        sc.close();
     }
 
-    public static String leerTexto(String mensaje) {
-        System.out.print(mensaje + " ");
-        return sc.nextLine().trim();
+    private void menuAdministrador() {
+        boolean volver = false;
+        while (!volver) {
+            mostrarSeparador(Constantes.SEPARADOR);
+            mostrarMensaje(Constantes.MENU_ADMIN);
+            int opcion = leerEntero(Constantes.ELEGIR_OPCION);
+
+            switch (opcion) {
+                case 1 :
+                    Jugador nuevo = generador.crearJugadores();
+                    jugadorDAO.insertarJugador(nuevo);
+                    mostrarMensaje(Constantes.JUGADOR_INSERTADO);
+                    break;
+                case 2 :
+                    jugadorDAO.getJugadores().forEach(j -> mostrarMensaje(j.toString()));
+                    break;
+                case 3 :
+                    int id = leerEntero(Constantes.PIDE_ID_JUGADOR);
+                    jugadorDAO.buscarPorId(id).ifPresentOrElse(j -> {
+                        int goles = leerEntero(Constantes.PIDE_GOLES);
+                        int asistencias = leerEntero(Constantes.PIDE_ASISTENCIAS);
+                        try {
+                            j.incrementarGoles(goles);
+                            mostrarMensaje(Constantes.GOLES_ACTUALIZADOS);
+                        } catch (ExcepcionGoles e) {
+                            mostrarError(e.getMessage());
+                        }
+                        try {
+                            j.incrementarAsistencias(asistencias);
+                            mostrarMensaje(Constantes.ASISTENCIAS_ACTUALIZADAS);
+                        } catch (ExcepcionAsistencias e) {
+                            mostrarError(e.getMessage());
+                        }
+                    }, () -> mostrarError(Constantes.JUGADOR_NO_ENCONTRADO));
+                    break;
+                case 0 :
+                    volver = true;
+                    break;
+                default :
+                    mostrarError(Constantes.OPCION_INVALIDA);
+            }
+        }
+    }
+
+    private void menuUsuario() {
+        boolean volver = false;
+        while (!volver) {
+            mostrarSeparador(Constantes.SEPARADOR);
+            mostrarMensaje(Constantes.MENU_USUARIO);
+            int opc = leerEntero(Constantes.ELEGIR_OPCION);
+
+            switch (opc) {
+                case 1 :
+                    jugadorDAO.getJugadores().forEach(j -> mostrarMensaje(j.toString()));
+                    break;
+                case 2 :
+                    int id = leerEntero(Constantes.PIDE_ID_JUGADOR);
+                    jugadorDAO.buscarPorId(id).ifPresentOrElse(
+                            j -> mostrarMensaje(j.toString()),
+                            () -> mostrarError(Constantes.JUGADOR_NO_ENCONTRADO)
+                    );
+                    break;
+                case 3 :
+                    insertarJugadorManual();
+                    break;
+                case 0 :
+                    volver = true;
+                    break;
+                default :
+                    mostrarError(Constantes.OPCION_INVALIDA);
+            }
+        }
+    }
+    private void insertarJugadorManual() {
+        System.out.println("Introduce ID del jugador:");
+        int id = leerEntero("");
+
+        System.out.println("Nombre:");
+        String nombre = sc.nextLine();
+
+        System.out.println("Equipo:");
+        String equipo = sc.nextLine();
+
+        System.out.println("Goles:");
+        int goles = leerEntero("");
+
+        System.out.println("Asistencias:");
+        int asistencias = leerEntero("");
+
+        System.out.println("Posición:");
+        String posicion = sc.nextLine();
+
+        // Puedes pedir fecha o usar fija por ahora
+        LocalDate fechaNac = LocalDate.of(2000, 1, 1);
+
+        Jugador nuevo = new Jugador(id, nombre, equipo, goles, asistencias, fechaNac, posicion);
+
+        boolean insertado = gestionJugador.insertarJugadorSiNoExiste(nuevo);
+        if (insertado) {
+            mostrarMensaje("✅ Jugador insertado correctamente.");
+        } else {
+            mostrarError("⚠️ Ya existe un jugador con ese ID.");
+        }
     }
 
 
-    public static int leerEntero(String mensaje) {
+    private int leerEntero(String mensaje) {
         int numero = -1;
         boolean valido = false;
         do {
@@ -35,24 +173,16 @@ public class EntradaSalida {
         return numero;
     }
 
-    public static void mostrarSeparador(String mensaje) {
+    private void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
     }
 
-    public static boolean leerConfirmacion(String mensaje) {
-        System.out.print(mensaje + " (s/n): ");
-        String respuesta = sc.nextLine().trim().toLowerCase();
-        return respuesta.equals("s") || respuesta.equals("sí") || respuesta.equals("si");
+    private void mostrarError(String mensaje) {
+        System.err.println(mensaje);
     }
 
-    public static void esperarEnter() {
-        System.out.println("Presiona Enter para continuar...");
-        sc.nextLine();
+    private void mostrarSeparador(String mensaje) {
+        System.out.println("\n" + mensaje);
     }
-
-    public static void cerrar() {
-        sc.close();
-    }
-
-    private EntradaSalida() {}
 }
+
