@@ -2,7 +2,7 @@ package org.example.common;
 public class Constantes {
     public static final String BIENVENIDA = "---------- Bienvenido a la Liga ----------";
     public static final String MENU_ROL = "1. Administrador\n2. Usuario\n0. Salir";
-    public static final String MENU_ADMIN = "1. Insertar jugador aleatorio\n2. Ver jugadores\n3. Modificar goles\n0. Volver";
+    public static final String MENU_ADMIN = "1. Insertar jugador aleatorio\n2. Ver jugadores\n3. Modificar goles\n4. Insertar jugador manual\n0. Volver";
     public static final String MENU_USUARIO = "1. Ver jugadores\n2. Buscar jugador por ID\n0. Volver";
     public static final String ELEGIR_OPCION = "Selecciona una opción:";
     public static final String OPCION_INVALIDA = "ERROR: Opción no válida.";
@@ -15,5 +15,12 @@ public class Constantes {
     public static final String ASISTENCIAS_ACTUALIZADAS = "Asistencias actualizados correctamente.";
     public static final String JUGADOR_NO_ENCONTRADO = "ERROR: Jugador no encontrado.";
     public static final String SEPARADOR = "-----------------------------";
+    public static final String ESTADISTICAS_JUGADOR = "Estadísticas del Jugador:";
+    public static final String NOMBRE = "Nombre: ";
+    public static final String EQUIPO = "Equipo: ";
+    public static final String POSICION = "Posición: ";
+    public static final String GOLES = "Goles: ";
+    public static final String ASISTENCIAS = "Asistencias: ";
+    public static final String EDAD = "Edad: ";
 }
 

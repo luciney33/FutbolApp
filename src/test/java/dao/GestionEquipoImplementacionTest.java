@@ -1,4 +1,4 @@
-package org.example.service.dao;
+package dao;
 
 public class GestionEquipoImplementacionTest {
 }

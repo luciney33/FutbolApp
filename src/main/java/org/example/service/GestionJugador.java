@@ -12,7 +12,7 @@ public interface GestionJugador{
     public Jugador obtenerJugadorMasJoven();
     public Jugador obtenerJugadorMasGoleador();
     public Set<Jugador> listarJugadores();
-    public void mostrarEstadisticas();
+    public void mostrarEstadisticasJugador();
     public Set<Jugador> listarJugadoresPorEdadAscendente();
     public Set<Jugador> filtrarPorEquipo(String nombreEquipo);
     public Optional<Jugador> buscarPorId(int id);

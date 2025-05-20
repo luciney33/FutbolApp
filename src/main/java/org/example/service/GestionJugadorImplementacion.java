@@ -1,7 +1,9 @@
 package org.example.service;
 
+import org.example.common.Constantes;
 import org.example.dao.JugadorDAO;
 import org.example.dao.JugadorDaoImplementacion;
+import org.example.domain.DatosAleatorios;
 import org.example.domain.Jugador;
 
 import java.io.IOException;
@@ -14,7 +16,7 @@ import java.util.stream.Collectors;
 public class GestionJugadorImplementacion implements GestionJugador{
     private JugadorDAO jugadorDAO;
 
-    public GestionJugadorImplementacion(JugadorDAO jugadorDAO){
+    public GestionJugadorImplementacion(JugadorDAO jugadorDAO) {
         this.jugadorDAO = jugadorDAO;
     }
     public GestionJugadorImplementacion() {
@@ -40,12 +42,12 @@ public class GestionJugadorImplementacion implements GestionJugador{
 
     @Override
     public Jugador obtenerJugadorMasJoven() {
-        return  jugadorDAO.getJugadores().stream().min(Comparator.comparing(Jugador::calcularEdad)).get();
+        return  jugadorDAO.getJugadores().stream().min(Comparator.comparing(Jugador::calcularEdad)).orElse(null);
     }
 
     @Override
     public Jugador obtenerJugadorMasGoleador() {
-        return jugadorDAO.getJugadores().stream().max(Comparator.comparingInt(Jugador::getGoles)).get();
+        return jugadorDAO.getJugadores().stream().max(Comparator.comparingInt(Jugador::getGoles)).orElse(null);
     }
 
     @Override
@@ -54,7 +56,7 @@ public class GestionJugadorImplementacion implements GestionJugador{
     }
 
     @Override
-    public void mostrarEstadisticas() {
+    public void mostrarEstadisticasJugador() {
 
     }
 
@@ -87,4 +89,5 @@ public class GestionJugadorImplementacion implements GestionJugador{
     public boolean escribirFichero() throws IOException {
         return false;
     }
+
 }

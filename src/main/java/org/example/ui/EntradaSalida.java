@@ -7,24 +7,25 @@ import org.example.dao.*;
 import org.example.domain.DatosAleatorios;
 import org.example.domain.Jugador;
 import org.example.service.GestionJugador;
+import org.example.service.GestionJugadorImplementacion;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class EntradaSalida {
-    private final GestionJugador gestionJugador;
-    private final JugadorDAO jugadorDAO;
-    private final EquipoDAO equipoDAO;
-    private final DatosAleatorios generador;
-    private final Scanner sc;
+    private  GestionJugador gestionJugador;
+    private DatosAleatorios datosAleatorios;
+    private Scanner sc;
 
-    public EntradaSalida() {
+    public EntradaSalida(GestionJugador gestionJugador, Scanner sc, DatosAleatorios datosAleatorios) {
         this.gestionJugador = gestionJugador;
-        Liga liga = new Liga();
-        this.jugadorDAO = new JugadorDaoImplementacion(liga);
-        this.equipoDAO = new EquipoDaoImplementacion(liga);
-        this.generador = new DatosAleatorios();
         this.sc = new Scanner(System.in);
+        this.datosAleatorios = datosAleatorios;
+    }
+    public EntradaSalida() {
+        this.gestionJugador = new GestionJugadorImplementacion();
+        this.sc = new Scanner(System.in);
+        this.datosAleatorios = new DatosAleatorios();
     }
 
     public void menuPrincipal() {
@@ -61,16 +62,16 @@ public class EntradaSalida {
 
             switch (opcion) {
                 case 1 :
-                    Jugador nuevo = generador.crearJugadores();
-                    jugadorDAO.insertarJugador(nuevo);
+                    Jugador nuevo = datosAleatorios.crearJugadores();
+                    gestionJugador.insertarJugadorSiNoExiste(nuevo);
                     mostrarMensaje(Constantes.JUGADOR_INSERTADO);
                     break;
                 case 2 :
-                    jugadorDAO.getJugadores().forEach(j -> mostrarMensaje(j.toString()));
+                    gestionJugador.listarJugadores().forEach(j -> mostrarMensaje(j.toString()));
                     break;
                 case 3 :
                     int id = leerEntero(Constantes.PIDE_ID_JUGADOR);
-                    jugadorDAO.buscarPorId(id).ifPresentOrElse(j -> {
+                    gestionJugador.buscarPorId(id).ifPresentOrElse(j -> {
                         int goles = leerEntero(Constantes.PIDE_GOLES);
                         int asistencias = leerEntero(Constantes.PIDE_ASISTENCIAS);
                         try {
@@ -87,6 +88,8 @@ public class EntradaSalida {
                         }
                     }, () -> mostrarError(Constantes.JUGADOR_NO_ENCONTRADO));
                     break;
+                case 4:
+                    insertarJugadorManual();
                 case 0 :
                     volver = true;
                     break;
@@ -105,13 +108,11 @@ public class EntradaSalida {
 
             switch (opc) {
                 case 1 :
-                    jugadorDAO.getJugadores().forEach(j -> mostrarMensaje(j.toString()));
+                    gestionJugador.listarJugadores().forEach(j -> mostrarMensaje(j.toString()));
                     break;
-                case 2 :
+                case 2:
                     int id = leerEntero(Constantes.PIDE_ID_JUGADOR);
-                    jugadorDAO.buscarPorId(id).ifPresentOrElse(
-                            j -> mostrarMensaje(j.toString()),
-                            () -> mostrarError(Constantes.JUGADOR_NO_ENCONTRADO)
+                    gestionJugador.buscarPorId(id).ifPresentOrElse(j -> {mostrarMensaje(j.toString());},() -> mostrarError(Constantes.JUGADOR_NO_ENCONTRADO)
                     );
                     break;
                 case 3 :
@@ -144,16 +145,15 @@ public class EntradaSalida {
         System.out.println("Posición:");
         String posicion = sc.nextLine();
 
-        // Puedes pedir fecha o usar fija por ahora
         LocalDate fechaNac = LocalDate.of(2000, 1, 1);
 
         Jugador nuevo = new Jugador(id, nombre, equipo, goles, asistencias, fechaNac, posicion);
 
         boolean insertado = gestionJugador.insertarJugadorSiNoExiste(nuevo);
         if (insertado) {
-            mostrarMensaje("✅ Jugador insertado correctamente.");
+            mostrarMensaje("Jugador insertado correctamente.");
         } else {
-            mostrarError("⚠️ Ya existe un jugador con ese ID.");
+            mostrarError("Ya existe un jugador con ese ID.");
         }
     }
 
