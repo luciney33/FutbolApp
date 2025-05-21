@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 public class Equipo {
     @EqualsAndHashCode.Include
         private int id;
-
         private String nombre;
         private String ciudad;
         private String estadio;

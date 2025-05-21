@@ -10,9 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -63,9 +61,9 @@ public class GestionJugadorImplementacionTest{
     void obtenerJugadorMasGoleador_devuelveJugadorConMasGoles() {
         when(jugadorDAO.getJugadores()).thenReturn(Set.of(jugador,jugador2, jugador3));
 
-        Jugador jug = gestionJugador.obtenerJugadorMasGoleador();
+        Jugador j = gestionJugador.obtenerJugadorMasGoleador();
 
-        assertTrue(jug.getGoles()==20);
+        assertTrue(j.getGoles()==20);
     }
 
     @Test
@@ -78,5 +76,17 @@ public class GestionJugadorImplementacionTest{
         assertThat(masJoven.getNombre()).isEqualTo(jugador2.getNombre());
     }
 
+    @Test
+    void listarJugadoresPorEdadAscendente_devuelveJugadoresOrdenados() {
+
+        when(jugadorDAO.getJugadores()).thenReturn(Set.of(jugador, jugador2, jugador3));
+
+        Set<Jugador> resultado = gestionJugador.listarJugadoresPorEdadAscendente();
+        List<Jugador> listaOrdenada = new ArrayList<>(resultado);
+
+        assertThat(listaOrdenada.get(0)).isEqualTo(jugador3.getNombre());
+        assertThat(listaOrdenada.get(1)).isEqualTo(jugador.getNombre());
+        assertThat(listaOrdenada.get(2)).isEqualTo(jugador2.getNombre());
+    }
 
 }
