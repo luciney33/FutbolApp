@@ -21,16 +21,8 @@ public class GestionEquipoImplementacion implements GestionEquipo {
     }
 
     @Override
-    public boolean insertarEquipoSiNoExiste(Equipo equipo) {
-        boolean insertarSi = false;
-        Optional<Equipo> existe = equipoDAO.buscarPorId(equipo.getId());
-        if (existe.isEmpty()){
-            insertarSi = true;
-            equipoDAO.insertarEquipo(equipo);
-        }else {
-            insertarSi = false;
-        }
-        return insertarSi;
+    public boolean insertarEquipo(Equipo equipo) {
+        return equipoDAO.insertarEquipo(equipo);
     }
 
     @Override

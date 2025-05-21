@@ -10,11 +10,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,10 +32,10 @@ public class GestionJugadorImplementacionTest{
     Jugador jugador3 = new Jugador(2, "Juan", "Madrid", 20, 3, LocalDate.of(1998, 8, 10), "defensa");
 
     @Test
-    void insertarJugadorSiNoExiste_devuelveFalse_siJugadorYaExiste() {
+    void insertarJugador_devuelveFalse_siJugadorYaExiste() {
         when(jugadorDAO.buscarPorId(anyInt())).thenReturn(Optional.of(jugador));
 
-        boolean resultado = gestionJugador.insertarJugadorSiNoExiste(jugador);
+        boolean resultado = gestionJugador.insertarJugador(jugador);
 
         assertFalse(resultado);
         verify(jugadorDAO, never()).insertarJugador(any());
@@ -66,5 +67,16 @@ public class GestionJugadorImplementacionTest{
 
         assertTrue(jug.getGoles()==20);
     }
+
+    @Test
+    void obtenerJugadorMasJoven_devuelveJugadorConMenorEdad() {
+
+        when(jugadorDAO.getJugadores()).thenReturn(Set.of(jugador, jugador2, jugador3));
+
+        Jugador masJoven = gestionJugador.obtenerJugadorMasJoven();
+
+        assertThat(masJoven.getNombre()).isEqualTo(jugador2.getNombre());
+    }
+
 
 }

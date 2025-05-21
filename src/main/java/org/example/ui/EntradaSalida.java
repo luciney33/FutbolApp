@@ -63,7 +63,7 @@ public class EntradaSalida {
             switch (opcion) {
                 case 1 :
                     Jugador nuevo = datosAleatorios.crearJugadores();
-                    gestionJugador.insertarJugadorSiNoExiste(nuevo);
+                    gestionJugador.insertarJugador(nuevo);
                     mostrarMensaje(Constantes.JUGADOR_INSERTADO);
                     break;
                 case 2 :
@@ -149,7 +149,7 @@ public class EntradaSalida {
 
         Jugador nuevo = new Jugador(id, nombre, equipo, goles, asistencias, fechaNac, posicion);
 
-        boolean insertado = gestionJugador.insertarJugadorSiNoExiste(nuevo);
+        boolean insertado = gestionJugador.insertarJugador(nuevo);
         if (insertado) {
             mostrarMensaje("Jugador insertado correctamente.");
         } else {

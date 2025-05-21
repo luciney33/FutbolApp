@@ -23,7 +23,16 @@ public class JugadorDaoImplementacion implements JugadorDAO {
 
     @Override
     public boolean insertarJugador(Jugador jugador) {
-        return liga.getJugadores().add(jugador);
+        boolean insertarSi = false;
+        Optional<Jugador> existe = buscarPorId(jugador.getId());
+        if (existe.isEmpty()) {
+            insertarSi = true;
+            liga.getJugadores().add(jugador);
+        } else {
+            insertarSi = false;
+        }
+        return insertarSi;
+
     }
 
     @Override

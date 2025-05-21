@@ -23,16 +23,8 @@ public class GestionJugadorImplementacion implements GestionJugador{
         this.jugadorDAO = new JugadorDaoImplementacion();
     }
     @Override
-    public boolean insertarJugadorSiNoExiste(Jugador jugador) {
-        boolean insertarSi = false;
-        Optional<Jugador> existe = jugadorDAO.buscarPorId(jugador.getId());
-        if (existe.isEmpty()) {
-            insertarSi = true;
-            jugadorDAO.insertarJugador(jugador);
-        } else {
-            insertarSi = false;
-        }
-        return insertarSi;
+    public boolean insertarJugador(Jugador jugador) {
+        return jugadorDAO.insertarJugador(jugador);
     }
 
     @Override

@@ -23,7 +23,15 @@ public class EquipoDaoImplementacion implements EquipoDAO{
 
     @Override
     public boolean insertarEquipo(Equipo equipo) {
-        return liga.getEquipos().add(equipo);
+        boolean insertarSi = false;
+        Optional<Equipo> existe = buscarPorId(equipo.getId());
+        if (existe.isEmpty()){
+            insertarSi = true;
+            liga.getEquipos().add(equipo);
+        }else {
+            insertarSi = false;
+        }
+        return insertarSi;
     }
 
     @Override

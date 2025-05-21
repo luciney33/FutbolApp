@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface GestionEquipo {
-        public boolean insertarEquipoSiNoExiste(Equipo equipo);
+        public boolean insertarEquipo(Equipo equipo);
 
         public boolean eliminarEquipo(Equipo equipo);
 
