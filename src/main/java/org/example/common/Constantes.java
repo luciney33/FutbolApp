@@ -22,5 +22,6 @@ public class Constantes {
     public static final String GOLES = "Goles: ";
     public static final String ASISTENCIAS = "Asistencias: ";
     public static final String EDAD = "Edad: ";
+    public static final String ID_INVALIDO = "ID Invalido: ";
 }
 

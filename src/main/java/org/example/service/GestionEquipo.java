@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.common.ExcepcionIdErroneo;
 import org.example.domain.Equipo;
 
 import java.util.Optional;
@@ -10,7 +11,7 @@ public interface GestionEquipo {
 
         public boolean eliminarEquipo(Equipo equipo);
 
-        public Optional<Equipo> buscarPorId(int id);
+        public Optional<Equipo> buscarPorId(int id) throws ExcepcionIdErroneo;
 
         public Set<Equipo> listarEquiposOrdenadosPorNombre();
 

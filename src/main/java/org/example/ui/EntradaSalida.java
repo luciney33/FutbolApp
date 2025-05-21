@@ -1,8 +1,6 @@
 package org.example.ui;
 
-import org.example.common.Constantes;
-import org.example.common.ExcepcionAsistencias;
-import org.example.common.ExcepcionGoles;
+import org.example.common.*;
 import org.example.dao.*;
 import org.example.domain.DatosAleatorios;
 import org.example.domain.Jugador;
@@ -28,7 +26,7 @@ public class EntradaSalida {
         this.datosAleatorios = new DatosAleatorios();
     }
 
-    public void menuPrincipal() {
+    public void menuPrincipal() throws ExcepcionIdErroneo {
         boolean salir = false;
         mostrarMensaje(Constantes.BIENVENIDA);
         while (!salir) {
@@ -53,7 +51,7 @@ public class EntradaSalida {
         sc.close();
     }
 
-    private void menuAdministrador() {
+    private void menuAdministrador() throws ExcepcionIdErroneo {
         boolean volver = false;
         while (!volver) {
             mostrarSeparador(Constantes.SEPARADOR);
@@ -71,6 +69,12 @@ public class EntradaSalida {
                     break;
                 case 3 :
                     int id = leerEntero(Constantes.PIDE_ID_JUGADOR);
+                    try {
+                        ComprobacionId.comprobarId(id);
+                    } catch (ExcepcionIdErroneo e) {
+                        mostrarError(Constantes.ID_INVALIDO);
+                        System.out.println("Error capturado: " + e.getMessage());
+                    }
                     gestionJugador.buscarPorId(id).ifPresentOrElse(j -> {
                         int goles = leerEntero(Constantes.PIDE_GOLES);
                         int asistencias = leerEntero(Constantes.PIDE_ASISTENCIAS);
@@ -99,7 +103,7 @@ public class EntradaSalida {
         }
     }
 
-    private void menuUsuario() {
+    private void menuUsuario() throws ExcepcionIdErroneo {
         boolean volver = false;
         while (!volver) {
             mostrarSeparador(Constantes.SEPARADOR);
@@ -126,7 +130,7 @@ public class EntradaSalida {
             }
         }
     }
-    private void insertarJugadorManual() {
+    private void insertarJugadorManual() throws ExcepcionIdErroneo {
         System.out.println("Introduce ID del jugador:");
         int id = leerEntero("");
 

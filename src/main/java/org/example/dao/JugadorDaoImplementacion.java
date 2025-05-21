@@ -1,6 +1,8 @@
 package org.example.dao;
 
 
+import org.example.common.ComprobacionId;
+import org.example.common.ExcepcionIdErroneo;
 import org.example.domain.Jugador;
 
 import java.util.*;
@@ -22,7 +24,7 @@ public class JugadorDaoImplementacion implements JugadorDAO {
     }
 
     @Override
-    public boolean insertarJugador(Jugador jugador) {
+    public boolean insertarJugador(Jugador jugador) throws ExcepcionIdErroneo {
         boolean insertarSi = false;
         Optional<Jugador> existe = buscarPorId(jugador.getId());
         if (existe.isEmpty()) {
@@ -52,7 +54,8 @@ public class JugadorDaoImplementacion implements JugadorDAO {
     }
 
     @Override
-    public Optional<Jugador> buscarPorId(int id) {
+    public Optional<Jugador> buscarPorId(int id) throws ExcepcionIdErroneo {
+        ComprobacionId.comprobarId(id);
         return liga.getJugadores().stream().filter(j -> j.getId() == id).findFirst();
     }
 }

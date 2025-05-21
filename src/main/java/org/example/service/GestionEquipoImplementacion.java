@@ -1,5 +1,7 @@
 package org.example.service;
 
+import org.example.common.ComprobacionId;
+import org.example.common.ExcepcionIdErroneo;
 import org.example.dao.EquipoDAO;
 import org.example.dao.EquipoDaoImplementacion;
 import org.example.domain.Equipo;
@@ -31,7 +33,8 @@ public class GestionEquipoImplementacion implements GestionEquipo {
     }
 
     @Override
-    public Optional<Equipo> buscarPorId(int id) {
+    public Optional<Equipo> buscarPorId(int id) throws ExcepcionIdErroneo {
+        ComprobacionId.comprobarId(id);
         return equipoDAO.getEquipos().stream().filter(e -> e.getId() == id ).findFirst();
     }
 

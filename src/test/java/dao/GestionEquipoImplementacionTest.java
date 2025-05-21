@@ -3,8 +3,13 @@ package dao;
 import org.example.dao.EquipoDAO;
 import org.example.domain.Equipo;
 import org.example.service.GestionEquipoImplementacion;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -30,17 +35,24 @@ public class GestionEquipoImplementacionTest {
     Equipo equipo2 = new Equipo(2, "Madrid", "Madrid", "Estadio Madrid","Entrenador2");
     Equipo equipo3 = new Equipo(3, "Barça", "Barcelona", "Estadio Barcelona", "Entrenador3");
 
-    @Test
-    void insertarEquipo_devuelveFalse_siEquipoYaExiste() {
-        when(equipoDAO.buscarPorId(anyInt())).thenReturn(Optional.of(equipo1));
+    @Nested
+    @DisplayName("Tests de inserción")
+    public class InsercionTests {
+        @Test
+        @Order(1)
+        @DisplayName("No se puede insertar un equipo ya existente")
+        void insertarEquipo_devuelveFalse_siEquipoYaExiste() {
+            when(equipoDAO.buscarPorId(anyInt())).thenReturn(Optional.of(equipo1));
 
-        boolean resultado = gestionEquipo.insertarEquipo(equipo1);
+            boolean resultado = gestionEquipo.insertarEquipo(equipo1);
 
-        assertFalse(resultado);
-        verify(equipoDAO, never()).insertarEquipo(any());
+            assertFalse(resultado);
+            verify(equipoDAO, never()).insertarEquipo(any());
+        }
     }
 
     @Test
+    @Order(2)
     void listarEquiposOrdenadosPorNombre_devuelveEquiposOrdenados() {
         when(equipoDAO.getEquipos()).thenReturn(Set.of(equipo2, equipo3, equipo1));
 
@@ -54,6 +66,7 @@ public class GestionEquipoImplementacionTest {
     }
 
     @Test
+    @Order(3)
     void eliminarEquipo_devuelveTrue() {
         when(equipoDAO.eliminarEquipo(equipo1)).thenReturn(true);
 
@@ -63,17 +76,20 @@ public class GestionEquipoImplementacionTest {
         verify(equipoDAO).eliminarEquipo(equipo1);
     }
 
-    @Test
-    void buscarPorCiudad_devuelveEquipoCorrecto() {
+    @ParameterizedTest
+    @Order(4)
+    @ValueSource(strings = {"Madrid", "Barcelona"})
+    void buscarPorCiudad_devuelveEquipoCorrecto_parametrizado(String ciudad) {
         when(equipoDAO.getEquipos()).thenReturn(Set.of(equipo1, equipo2, equipo3));
 
-        Optional<Equipo> resultado = gestionEquipo.buscarPorCiudad("Madrid");
+        Optional<Equipo> resultado = gestionEquipo.buscarPorCiudad(ciudad);
 
-        assertTrue(resultado.isPresent());
-        assertThat(resultado.get().getCiudad()).isEqualToIgnoringCase("Madrid");
+        assertTrue(resultado.isPresent(), "El equipo debería existir para la ciudad: " + ciudad);
+        assertThat(resultado.get().getCiudad()).isEqualToIgnoringCase(ciudad);
     }
 
     @Test
+    @Order(5)
     void modificarEntrenador_devuelveTrue_siEquipoExistia() {
         when(equipoDAO.modificarEquipo(equipo1.getId(), "NuevoEntrenador")).thenReturn(true);
 
@@ -84,6 +100,7 @@ public class GestionEquipoImplementacionTest {
     }
 
     @Test
+    @Order(6)
     void listarEquipos_devuelveTodosLosEquipos() {
         when(equipoDAO.getEquipos()).thenReturn(Set.of(equipo1, equipo2, equipo3));
 

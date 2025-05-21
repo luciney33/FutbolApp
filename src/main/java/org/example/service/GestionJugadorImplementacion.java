@@ -1,6 +1,8 @@
 package org.example.service;
 
+import org.example.common.ComprobacionId;
 import org.example.common.Constantes;
+import org.example.common.ExcepcionIdErroneo;
 import org.example.dao.JugadorDAO;
 import org.example.dao.JugadorDaoImplementacion;
 import org.example.domain.DatosAleatorios;
@@ -23,7 +25,8 @@ public class GestionJugadorImplementacion implements GestionJugador{
         this.jugadorDAO = new JugadorDaoImplementacion();
     }
     @Override
-    public boolean insertarJugador(Jugador jugador) {
+    public boolean insertarJugador(Jugador jugador) throws ExcepcionIdErroneo {
+        ComprobacionId.comprobarId(jugador.getId());
         return jugadorDAO.insertarJugador(jugador);
     }
 
@@ -63,7 +66,7 @@ public class GestionJugadorImplementacion implements GestionJugador{
     }
 
     @Override
-    public Optional<Jugador> buscarPorId(int id) {
+    public Optional<Jugador> buscarPorId(int id) throws ExcepcionIdErroneo {
         return jugadorDAO.buscarPorId(id);
     }
 
