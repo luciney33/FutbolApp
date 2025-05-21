@@ -1,5 +1,65 @@
 package org.example.service;
 
-public class GestionEquipoImplementacion {
-    // Lógica de negocio para equipos
+import org.example.dao.EquipoDAO;
+import org.example.dao.EquipoDaoImplementacion;
+import org.example.domain.Equipo;
+
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class GestionEquipoImplementacion implements GestionEquipo {
+    private EquipoDAO equipoDAO;
+
+    public GestionEquipoImplementacion(EquipoDAO equipoDAO) {
+        this.equipoDAO = equipoDAO;
+    }
+    public GestionEquipoImplementacion() {
+        this.equipoDAO = new EquipoDaoImplementacion();
+    }
+
+    @Override
+    public boolean insertarEquipoSiNoExiste(Equipo equipo) {
+        boolean insertarSi = false;
+        Optional<Equipo> existe = equipoDAO.buscarPorId(equipo.getId());
+        if (existe.isEmpty()){
+            insertarSi = true;
+            equipoDAO.insertarEquipo(equipo);
+        }else {
+            insertarSi = false;
+        }
+        return insertarSi;
+    }
+
+    @Override
+    public boolean eliminarEquipo(Equipo equipo) {
+        return equipoDAO.eliminarEquipo(equipo);
+    }
+
+    @Override
+    public Optional<Equipo> buscarPorId(int id) {
+        return equipoDAO.getEquipos().stream().filter(e -> e.getId() == id ).findFirst();
+    }
+
+    @Override
+    public Set<Equipo> listarEquiposOrdenadosPorNombre() {
+        return equipoDAO.getEquipos().stream().sorted(Comparator.comparing(Equipo::getNombre)).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    @Override
+    public Optional<Equipo> buscarPorCiudad(String ciudad) {
+        return equipoDAO.getEquipos().stream().filter(e -> e.getCiudad().equalsIgnoreCase(ciudad)).findFirst();
+    }
+
+    @Override
+    public boolean modificarEntrenador(int id, String nuevoEntrenador) {
+        return equipoDAO.modificarEquipo(id,nuevoEntrenador);
+    }
+
+    @Override
+    public Set<Equipo> listarEquipos() {
+        return equipoDAO.getEquipos();
+    }
 }

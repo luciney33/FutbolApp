@@ -27,7 +27,7 @@ public class GestionJugadorImplementacionTest{
     GestionJugadorImplementacion gestionJugador;
 
     Jugador jugador = new Jugador(1,"David","Atleti",12,5, LocalDate.of(1999, 5, 12),"delantero");
-    Jugador jugador2 = new Jugador(1, "Pepe", "Atleti", 12, 5, LocalDate.of(1999, 5, 12), "delantero");
+    Jugador jugador2 = new Jugador(1, "Pepe", "Atleti", 18, 10, LocalDate.of(2000, 3, 22), "delantero");
     Jugador jugador3 = new Jugador(2, "Juan", "Madrid", 20, 3, LocalDate.of(1998, 8, 10), "defensa");
 
     @Test
@@ -57,6 +57,14 @@ public class GestionJugadorImplementacionTest{
 
         assertTrue(resultado);
         verify(jugadorDAO).eliminarJugador(jugador);
+    }
+    @Test
+    void obtenerJugadorMasGoleador_devuelveJugadorConMasGoles() {
+        when(jugadorDAO.getJugadores()).thenReturn(Set.of(jugador,jugador2, jugador3));
+
+        Jugador jug = gestionJugador.obtenerJugadorMasGoleador();
+
+        assertTrue(jug.getGoles()==20);
     }
 
 }
