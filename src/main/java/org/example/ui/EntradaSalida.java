@@ -4,6 +4,9 @@ import org.example.common.*;
 import org.example.dao.*;
 import org.example.domain.DatosAleatorios;
 import org.example.domain.Jugador;
+import org.example.domain.Usuario;
+import org.example.service.GestionEquipo;
+import org.example.service.GestionEquipoImplementacion;
 import org.example.service.GestionJugador;
 import org.example.service.GestionJugadorImplementacion;
 
@@ -12,18 +15,63 @@ import java.util.Scanner;
 
 public class EntradaSalida {
     private  GestionJugador gestionJugador;
+    private GestionEquipo gestionEquipo;
+    private Usuario usuario;
     private DatosAleatorios datosAleatorios;
     private Scanner sc;
 
-    public EntradaSalida(GestionJugador gestionJugador, Scanner sc, DatosAleatorios datosAleatorios) {
+    public EntradaSalida(GestionJugador gestionJugador, GestionEquipo gestionEquipo, Usuario usuario, Scanner sc, DatosAleatorios datosAleatorios) {
         this.gestionJugador = gestionJugador;
+        this.gestionEquipo = gestionEquipo;
+        this.usuario = usuario;
         this.sc = new Scanner(System.in);
         this.datosAleatorios = datosAleatorios;
     }
     public EntradaSalida() {
         this.gestionJugador = new GestionJugadorImplementacion();
+        this.gestionEquipo = new GestionEquipoImplementacion();
+        this.usuario = new Usuario();
         this.sc = new Scanner(System.in);
         this.datosAleatorios = new DatosAleatorios();
+    }
+
+    private int leerEntero(String mensaje) {
+        int numero = -1;
+        boolean valido = false;
+        do {
+            System.out.print(mensaje + " ");
+            try {
+                numero = sc.nextInt();
+                valido = true;
+            } catch (NumberFormatException e) {
+                mostrarError(Constantes.OPCION_INVALIDA);
+            }
+        } while (!valido);
+        return numero;
+    }
+
+    private void mostrarMensaje(String mensaje) {
+        System.out.println(mensaje);
+    }
+
+    private void mostrarError(String mensaje) {
+        System.out.println(mensaje);
+    }
+
+    private void mostrarSeparador(String mensaje) {
+        System.out.println("\n" + mensaje);
+    }
+
+    private boolean UsuAdmi(){
+
+    }
+
+    private boolean loginAdmin() {
+        mostrarMensaje(Constantes.USU);
+        String user = sc.nextLine();
+        mostrarMensaje(Constantes.CONTRA);
+        String contra = sc.nextLine();
+        return user.equals("admin") && contra.equals("1234");
     }
 
     public void menuPrincipal() throws ExcepcionIdErroneo {
@@ -36,7 +84,11 @@ public class EntradaSalida {
 
             switch (opc) {
                 case 1 :
-                    menuAdministrador();
+                    if(loginAdmin()){
+                        menuAdministrador();
+                    }else {
+                        mostrarError(Constantes.ERROR_INICIOSESION);
+                    }
                     break;
                 case 2 :
                     menuUsuario();
@@ -116,6 +168,12 @@ public class EntradaSalida {
                     break;
                 case 2:
                     int id = leerEntero(Constantes.PIDE_ID_JUGADOR);
+                    try {
+                        ComprobacionId.comprobarId(id);
+                    } catch (ExcepcionIdErroneo e) {
+                        mostrarError(Constantes.ID_INVALIDO);
+                        System.out.println("Error capturado: " + e.getMessage());
+                    }
                     gestionJugador.buscarPorId(id).ifPresentOrElse(j -> {mostrarMensaje(j.toString());},() -> mostrarError(Constantes.JUGADOR_NO_ENCONTRADO)
                     );
                     break;
@@ -161,32 +219,5 @@ public class EntradaSalida {
         }
     }
 
-
-    private int leerEntero(String mensaje) {
-        int numero = -1;
-        boolean valido = false;
-        do {
-            System.out.print(mensaje + " ");
-            try {
-                numero = Integer.parseInt(sc.nextLine());
-                valido = true;
-            } catch (NumberFormatException e) {
-                mostrarError(Constantes.OPCION_INVALIDA);
-            }
-        } while (!valido);
-        return numero;
-    }
-
-    private void mostrarMensaje(String mensaje) {
-        System.out.println(mensaje);
-    }
-
-    private void mostrarError(String mensaje) {
-        System.err.println(mensaje);
-    }
-
-    private void mostrarSeparador(String mensaje) {
-        System.out.println("\n" + mensaje);
-    }
 }
 
