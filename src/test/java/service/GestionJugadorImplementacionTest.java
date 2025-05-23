@@ -52,7 +52,7 @@ public class GestionJugadorImplementacionTest{
     void filtrarPorEquipo_devuelveSoloJugadoresDelEquipoEspecificado() {
         when(jugadorDAO.getJugadores()).thenReturn(Set.of(jugador2, jugador3));
 
-        Set<Jugador> resultado = gestionJugador.filtrarPorEquipo("Atleti");
+            Set<Jugador> resultado = gestionJugador.filtrarPorEquipo("Atleti");
 
         assertTrue(resultado.contains(jugador2));
         assertFalse(resultado.contains(jugador3));

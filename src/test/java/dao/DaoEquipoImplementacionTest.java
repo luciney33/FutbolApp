@@ -5,6 +5,8 @@ import org.example.dao.Liga;
 import org.example.domain.Equipo;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -24,7 +26,7 @@ public class DaoEquipoImplementacionTest {
     Liga ligaMock;//liga porque el dao depende de él
 
     @InjectMocks
-    EquipoDaoImplementacion dao;
+    EquipoDaoImplementacion equipodao;
 
     Equipo equipo1, equipo2;
 
@@ -38,52 +40,60 @@ public class DaoEquipoImplementacionTest {
 
         when(ligaMock.getEquipos()).thenReturn(equipos);
     }
+    @Nested
+    @Order(1)
+    public class pruebasTest {
+        @Test
+        @Order(2)
+        void insertarEquipo_devuelveTrue_siNoExiste() {
+            Equipo nuevo = new Equipo(3, "Cádiz", "Cádiz", "Nuevo Mirandilla", "Sergio");
 
-    @Test
-    void insertarEquipo_devuelveTrue_siNoExiste() {
-        Equipo nuevo = new Equipo(3, "Cádiz", "Cádiz", "Nuevo Mirandilla", "Sergio");
+            boolean resultado = equipodao.insertarEquipo(nuevo);
 
-        boolean resultado = dao.insertarEquipo(nuevo);
+            assertTrue(resultado);
+            assertTrue(equipos.contains(nuevo));
+        }
 
-        assertTrue(resultado);
-        assertTrue(equipos.contains(nuevo));
+        @Test
+        @Order(3)
+        void insertarEquipo_devuelveFalse_siYaExiste() {
+            boolean resultado = equipodao.insertarEquipo(equipo1);
+
+            assertFalse(resultado);
+            verify(ligaMock, never()).getEquipos().add(any());
+        }
     }
-
     @Test
-    void insertarEquipo_devuelveFalse_siYaExiste() {
-        boolean resultado = dao.insertarEquipo(equipo1);
-
-        assertFalse(resultado);
-        verify(ligaMock, never()).getEquipos().add(any());
-    }
-
-    @Test
+    @Order(6)
+    @DisplayName("Eliminar el equipo existente")
     void eliminarEquipo_devuelveTrue_siExiste() {
-        boolean resultado = dao.eliminarEquipo(equipo1);
+        boolean resultado = equipodao.eliminarEquipo(equipo1);
 
         assertTrue(resultado);
         assertFalse(equipos.contains(equipo1));
     }
 
     @Test
+    @Order(7)
     void buscarPorId_devuelveEquipoCorrecto() {
-        Optional<Equipo> encontrado = dao.buscarPorId(1);
+        Optional<Equipo> encontrado = equipodao.buscarPorId(1);
 
         assertTrue(encontrado.isPresent());
         assertEquals("Betis", encontrado.get().getNombre());
     }
 
     @Test
+    @Order(4)
     void modificarEquipo_actualizaEntrenador_siExiste() {
-        boolean modificado = dao.modificarEquipo(1, "Nuevo Entrenador");
+        boolean modificado = equipodao.modificarEquipo(1, "Nuevo Entrenador");
 
         assertTrue(modificado);
         assertEquals("Nuevo Entrenador", equipo1.getEntrenador());
     }
-
     @Test
+    @Order(5)
     void buscarPorCiudad_devuelveEquiposCorrectos() {
-        Set<Equipo> resultado = dao.buscarPorCiudad("Sevilla");
+        Set<Equipo> resultado = equipodao.buscarPorCiudad("Sevilla");
 
         assertEquals(2, resultado.size());
     }
