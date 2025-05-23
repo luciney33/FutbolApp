@@ -1,7 +1,7 @@
 package org.example.ui;
 
 import org.example.common.*;
-import org.example.dao.*;
+import org.example.dao.DaoFicheros;
 import org.example.domain.DatosAleatorios;
 import org.example.domain.Jugador;
 import org.example.domain.Usuario;
@@ -11,26 +11,30 @@ import org.example.service.GestionJugador;
 import org.example.service.GestionJugadorImplementacion;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class EntradaSalida {
     private  GestionJugador gestionJugador;
     private GestionEquipo gestionEquipo;
-    private Usuario usuario;
+    private DaoFicheros daoFicheros;
+    private List<Usuario> usuariosRegistrados;
     private DatosAleatorios datosAleatorios;
     private Scanner sc;
 
-    public EntradaSalida(GestionJugador gestionJugador, GestionEquipo gestionEquipo, Usuario usuario, Scanner sc, DatosAleatorios datosAleatorios) {
+    public EntradaSalida(GestionJugador gestionJugador, GestionEquipo gestionEquipo, DaoFicheros daoFicheros, Usuario usuariosRegistrados, Scanner sc, DatosAleatorios datosAleatorios) {
         this.gestionJugador = gestionJugador;
         this.gestionEquipo = gestionEquipo;
-        this.usuario = usuario;
+        this.daoFicheros = daoFicheros;
+        this.usuariosRegistrados = daoFicheros.leerUsuariosBinario();
         this.sc = new Scanner(System.in);
         this.datosAleatorios = datosAleatorios;
     }
     public EntradaSalida() {
         this.gestionJugador = new GestionJugadorImplementacion();
         this.gestionEquipo = new GestionEquipoImplementacion();
-        this.usuario = new Usuario();
+        this.daoFicheros = new DaoFicheros();
+        this.usuariosRegistrados = daoFicheros.leerUsuariosBinario();
         this.sc = new Scanner(System.in);
         this.datosAleatorios = new DatosAleatorios();
     }
@@ -50,20 +54,23 @@ public class EntradaSalida {
         return numero;
     }
 
-    private void mostrarMensaje(String mensaje) {
+    private static void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
     }
 
-    private void mostrarError(String mensaje) {
+    private static void mostrarError(String mensaje) {
         System.out.println(mensaje);
     }
 
-    private void mostrarSeparador(String mensaje) {
+    private static void mostrarSeparador(String mensaje) {
         System.out.println("\n" + mensaje);
     }
 
-    private boolean UsuAdmi(){
-
+    private static void registrarUsuario(){
+        Scanner sc = new Scanner(System.in);
+        List<Usuario> listaUsuarios = DaoFicheros.leerUsuariosBinario();
+        mostrarMensaje(Constantes.USU);
+        String nombreUsuario = sc.nextLine();
     }
 
     private boolean loginAdmin() {

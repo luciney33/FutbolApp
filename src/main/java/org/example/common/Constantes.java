@@ -18,6 +18,7 @@ public class Constantes {
     public static final String USU = "Usuario: ";
     public static final String CONTRA = "Contraseña: ";
     public static final String ERROR_INICIOSESION = "Usuario o contraseña incorrectos";
+    public static final String FICHERO_USUARIOS = "usuarios.dat";
     public static final String ESTADISTICAS_JUGADOR = "Estadísticas del Jugador: ";
     public static final String NOMBRE = "Nombre: ";
     public static final String EQUIPO = "Equipo: ";
