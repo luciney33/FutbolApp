@@ -16,6 +16,7 @@ public class EquipoDaoImplementacion implements EquipoDAO{
     public EquipoDaoImplementacion() {
         liga = new Liga();
     }
+
     @Override
     public Set<Equipo> getEquipos() {
         return liga.getEquipos();

@@ -1,13 +1,11 @@
 package service;
 
+import lombok.extern.flogger.Flogger;
 import org.example.common.ExcepcionIdErroneo;
 import org.example.dao.JugadorDAO;
 import org.example.domain.Jugador;
 import org.example.service.GestionJugadorImplementacion;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -17,14 +15,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.logging.Logger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(MockitoExtension.class)
 
 public class GestionJugadorImplementacionTest{
+    private static final Logger logger = Logger.getLogger(GestionJugadorImplementacionTest.class.getName());
     @Mock
     JugadorDAO jugadorDAO;
 
@@ -40,13 +40,14 @@ public class GestionJugadorImplementacionTest{
     @DisplayName("Insertar jugador devuelve false si el jugador ya existe")
     void insertarJugador_devuelveFalse_siJugadorYaExiste() throws ExcepcionIdErroneo {
         when(jugadorDAO.buscarPorId(anyInt())).thenReturn(Optional.of(jugador));
+        logger.info("Insertar Jugador devuelve true si el jugador ya existe");
 
         ExcepcionIdErroneo e = assertThrows(ExcepcionIdErroneo.class, () -> gestionJugador.insertarJugador(jugador));
 
         assertEquals("Id negativo",e.getMessage());
     }
     @ParameterizedTest
-    @Order(2)
+    @Order(3)
     @ValueSource(strings = {"Atleti", "Madrid"})
     void filtrarPorEquipo_devuelveSoloJugadoresDelEquipoEspecificado() {
         when(jugadorDAO.getJugadores()).thenReturn(Set.of(jugador2, jugador3));
@@ -58,14 +59,14 @@ public class GestionJugadorImplementacionTest{
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     void eliminarJugador_delDAO() {
         when(jugadorDAO.eliminarJugador(jugador)).thenReturn(true);
 
         boolean resultado = gestionJugador.eliminarJugador(jugador);
 
         assertTrue(resultado);
-        verify(jugadorDAO).eliminarJugador(jugador);
+        verify(jugadorDAO,times(1)).eliminarJugador(jugador);
     }
     @Nested
     @Order(4)
