@@ -16,6 +16,7 @@ public class Constantes {
             + "10. Listar jugadores por edad ascendente\n"
             + "11. Filtrar jugadores por equipo\n"
             + "12. Buscar jugador por ID\n"
+            + "13. Comparar goles entre dos jugadores\n"
             + "0. Volver";
     public static final String MENU_ADMIN3 = "[Gestion Equipos]\n" +
             "1. Insertar equipo manualmente\n" +
@@ -24,8 +25,22 @@ public class Constantes {
             "4. Buscar equipo por ciudad\n" +
             "5. Eliminar equipo\n" +
             "0. Volver";
-    public static final String MENU_USUARIO = "1. Iniciar sesión\n2. Registrarse\n0. Volver";
-    public static final String MENU_USUARIO2 = "[USUARIO]\n1. Ver jugadores\n2. Buscar jugador por ID\n0. Volver";
+    public static final String MENU_USUARIO = "1. INICAR SESION\n2. REGISTRARSE\n0. VOLVER";
+    public static final String MENU_USUARIOLOG = "---- USUARIO ----\n 1. Ver información de jugadores\n" +
+            "2. Ver información de equipos\n" +
+            "0. Volver";
+    public static final String MENU_USUARIO2 = " 1. Listar todos los jugadores\n" +
+            "2. Buscar jugador por ID\n" +
+            "3. Buscar jugadores por equipo\n" +
+            "4. Ver edad de un jugador\n" +
+            "5. Calcular promedio de goles por partido\n" +
+            "0. Volver";
+    public static final String MENU_USUARIO3 = "1. Listar todos los equipos\n" +
+            "2. Buscar equipos por ciudad\n" +
+            "3. Ver entrenador de un equipo\n" +
+            "4. Listar equipos ordenados por nombre\n" +
+            "5. Ver jugadores de un equipo\n"+
+            "0. Volver";
     public static final String ELEGIR_OPCION = "Selecciona una opción:";
     public static final String OPCION_INVALIDA = "ERROR: Opción no válida.";
     public static final String SALIR_APP = "Cerrando aplicación...";
@@ -47,13 +62,6 @@ public class Constantes {
     public static final String FICHERO_USUARIOS = "usuarios.dat";
     public static final String FICHERO_ADMI = "admi.dat";
     public static final String ERROR_ADMI = "ERROR: No hay administradores registrados";
-    public static final String ESTADISTICAS_JUGADOR = "Estadísticas del Jugador: ";
-    public static final String NOMBRE = "Nombre: ";
-    public static final String EQUIPO = "Equipo: ";
-    public static final String POSICION = "Posición: ";
-    public static final String GOLES = "Goles: ";
-    public static final String ASISTENCIAS = "Asistencias: ";
-    public static final String EDAD = "Edad: ";
     public static final String ID_INVALIDO = "ID Invalido: ";
 }
 

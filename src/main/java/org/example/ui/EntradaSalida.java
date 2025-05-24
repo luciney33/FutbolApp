@@ -14,26 +14,21 @@ import org.example.service.GestionJugadorImplementacion;
 import javax.swing.plaf.IconUIResource;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class EntradaSalida {
-    private static GestionJugador gestionJugador;
-    private static GestionEquipo gestionEquipo;
-    private static DaoFicheros daoFicheros;
-    private static List<Usuario> usuariosRegistrados;
-    private static DatosAleatorios datosAleatorios;
-    private static Scanner sc;
+    private static GestionJugador gestionJugador = new GestionJugadorImplementacion();
+    private static GestionEquipo gestionEquipo = new GestionEquipoImplementacion();
+    private static DaoFicheros daoFicheros = new DaoFicheros();
+    private static List<Usuario> usuariosRegistrados = daoFicheros.leerUsuariosBinario();
+    private static DatosAleatorios datosAleatorios = new DatosAleatorios();
+    private static Scanner sc = new Scanner(System.in);
 
     public EntradaSalida() {
-        this.gestionJugador = new GestionJugadorImplementacion();
-        this.gestionEquipo = new GestionEquipoImplementacion();
-        this.daoFicheros = new DaoFicheros();
-        this.usuariosRegistrados = daoFicheros.leerUsuariosBinario();
-        this.sc = new Scanner(System.in);
-        this.datosAleatorios = new DatosAleatorios();
         DaoFicheros.crearFicheroAdminPorDefecto();
     }
 
-    private void mostrarEstadisticasJugadorUI() throws ExcepcionIdErroneo {
+    private static void mostrarEstadisticasJugadorUI() throws ExcepcionIdErroneo {
         int id = leerEntero("Introduce el ID del jugador para ver estadísticas:");
         String estadisticas = gestionJugador.mostrarEstadisticasJugador(id);
         mostrarMensaje(estadisticas);
@@ -67,38 +62,28 @@ public class EntradaSalida {
     }
 
     private static void registrarUsuario(){
-        Scanner sc = new Scanner(System.in);
-        List<Usuario> listaUsuarios = DaoFicheros.leerUsuariosBinario();
         mostrarMensaje(Constantes.USU);
         String nombreUsuario = sc.nextLine();
-        boolean existe = false;
-        for (int i = 0; i < listaUsuarios.size(); i++) {
-            Usuario u = listaUsuarios.get(i);
-            if (u.getNombreUsu().equals(nombreUsuario)){
-                existe=true;
-            }
-        }
-        if (!existe){
+        boolean existe = usuariosRegistrados.stream().anyMatch(u -> u.getNombreUsu().equals(nombreUsuario));
+        if (!existe) {
             mostrarMensaje(Constantes.CONTRA);
             String contra = sc.nextLine();
             Usuario nuevo = new Usuario(nombreUsuario, contra);
-            listaUsuarios.add(nuevo);
-            DaoFicheros.escribirUsuariosBinario(listaUsuarios);
+            usuariosRegistrados.add(nuevo);
+            DaoFicheros.escribirUsuariosBinario(usuariosRegistrados);
             mostrarMensaje(Constantes.REGISTRADO);
-        }else{
+        } else {
             mostrarError(Constantes.ERROR_INICIOSESION2);
         }
     }
 
     private static Usuario iniciarSesion(){
-        Scanner sc = new Scanner(System.in);
-        List<Usuario> listaUsuarios = DaoFicheros.leerUsuariosBinario();
         mostrarMensaje(Constantes.USU);
         String nommbreUsu = sc.nextLine();
         mostrarMensaje(Constantes.CONTRA);
         String contra = sc.nextLine();
-        for (int i = 0; i < listaUsuarios.size(); i++) {
-           Usuario u = listaUsuarios.get(i);
+        for (int i = 0; i < usuariosRegistrados.size(); i++) {
+           Usuario u = usuariosRegistrados.get(i);
            if (u.getNombreUsu().equals(nommbreUsu) && u.getContraseya().equals(contra)){
                mostrarMensaje(Constantes.INICIOSESION + nommbreUsu);
                return u;
@@ -109,7 +94,6 @@ public class EntradaSalida {
 
     }
     private static boolean loginAdmin() {
-        Scanner sc = new Scanner(System.in);
         List<Usuario> admins = DaoFicheros.leerAdmiBinario();
         boolean coincide = false;
 
@@ -121,7 +105,7 @@ public class EntradaSalida {
             mostrarMensaje(Constantes.CONTRA);
             String contra = sc.nextLine();
 
-            Usuario admin = admins.get(0); //solo hay uno
+            Usuario admin = admins.get(0); //admi unico
 
             if (admin.getNombreUsu().equals(nombre) && admin.getContraseya().equals(contra)) {
                 mostrarMensaje(Constantes.INICIOSESION);
@@ -135,20 +119,23 @@ public class EntradaSalida {
     }
 
 
-    public void menuPrincipal() throws ExcepcionIdErroneo {
+    public static void menuPrincipal() throws ExcepcionIdErroneo {
         boolean salir = false;
         mostrarMensaje(Constantes.BIENVENIDA);
         while (!salir) {
             mostrarSeparador(Constantes.SEPARADOR);
             mostrarMensaje(Constantes.MENU_ROL);
             int opc = leerEntero(Constantes.ELEGIR_OPCION);
+            sc.nextLine();
 
             switch (opc) {
                 case 1 :
-                    if(loginAdmin()){
-                        menuAdministrador();
-                    }else {
-                        mostrarError(Constantes.ERROR_INICIOSESION);
+                    if (loginAdmin()) {
+                        try {
+                            menuAdministrador();
+                        } catch (ExcepcionIdErroneo e) {
+                            mostrarError("Error en menu admi: " + e.getMessage());
+                        }
                     }
                     break;
                 case 2 :
@@ -165,12 +152,13 @@ public class EntradaSalida {
         }
     }
 
-    private void menuAdministrador() throws ExcepcionIdErroneo {
+    private static void menuAdministrador() throws ExcepcionIdErroneo {
         boolean volver = false;
         while (!volver) {
             mostrarSeparador(Constantes.SEPARADOR);
             mostrarMensaje(Constantes.MENU_ADMIN1);
             int opcion = leerEntero(Constantes.ELEGIR_OPCION);
+            sc.nextLine();
 
             switch (opcion) {
                 case 1:
@@ -184,15 +172,17 @@ public class EntradaSalida {
                     break;
                 default:
                     mostrarError(Constantes.OPCION_INVALIDA);
+                    break;
             }
         }
     }
-    private void menuGestionJugadores() throws ExcepcionIdErroneo {
+    private static void menuGestionJugadores() throws ExcepcionIdErroneo {
         boolean volver = false;
         while (!volver) {
             mostrarSeparador(Constantes.SEPARADOR);
             mostrarMensaje(Constantes.MENU_ADMIN2);
             int opcion = leerEntero(Constantes.ELEGIR_OPCION);
+            sc.nextLine();
 
             switch (opcion) {
                 case 1:
@@ -334,7 +324,25 @@ public class EntradaSalida {
                             () -> mostrarError(Constantes.JUGADOR_NO_ENCONTRADO));
                     break;
                 }
+                case 13:
+                    int id1 = leerEntero("Introduce ID del primer jugador:");
+                    int id2 = leerEntero("Introduce ID del segundo jugador:");
 
+                    Optional<Jugador> jugador1 = gestionJugador.buscarPorId(id1);
+                    Optional<Jugador> jugador2 = gestionJugador.buscarPorId(id2);
+
+                    if (jugador1.isPresent() && jugador2.isPresent()) {
+                        if (jugador1.get().haSuperadoA(jugador2.get())) {
+                            mostrarMensaje(jugador1.get().getNombre() + " ha marcado más goles que " + jugador2.get().getNombre());
+                        } else if (jugador2.get().haSuperadoA(jugador1.get())) {
+                            mostrarMensaje(jugador2.get().getNombre() + " ha marcado más goles que " + jugador1.get().getNombre());
+                        } else {
+                            mostrarMensaje("Ambos jugadores tienen la misma cantidad de goles.");
+                        }
+                    } else {
+                        mostrarError("Uno o ambos jugadores no fueron encontrados.");
+                    }
+                    break;
                 case 0:
                     volver = true;
                     break;
@@ -344,12 +352,13 @@ public class EntradaSalida {
             }
         }
     }
-    private void menuGestionEquipos() throws ExcepcionIdErroneo {
+    private static void menuGestionEquipos() throws ExcepcionIdErroneo {
         boolean volver = false;
         while (!volver) {
             mostrarSeparador(Constantes.SEPARADOR);
             mostrarMensaje(Constantes.MENU_ADMIN3);
             int opcion = leerEntero(Constantes.ELEGIR_OPCION);
+            sc.nextLine();
 
             switch (opcion) {
                 case 1:
@@ -427,12 +436,13 @@ public class EntradaSalida {
             }
         }
     }
-    private void menuUsuario() throws ExcepcionIdErroneo {
+    private static void menuUsuario() throws ExcepcionIdErroneo {
         boolean volver = false;
         while (!volver) {
             mostrarSeparador(Constantes.SEPARADOR);
             mostrarMensaje(Constantes.MENU_USUARIO);
-            int opc = leerEntero("Selecciona una opción:");
+            int opc = leerEntero(Constantes.ELEGIR_OPCION);
+            sc.nextLine();
 
             switch (opc) {
                 case 1:
@@ -451,6 +461,7 @@ public class EntradaSalida {
                     break;
                 default:
                     mostrarError(Constantes.OPCION_INVALIDA);
+                    break;
             }
         }
     }
@@ -458,27 +469,16 @@ public class EntradaSalida {
         boolean volver = false;
         while (!volver) {
             mostrarSeparador(Constantes.SEPARADOR);
-            mostrarMensaje(Constantes.MENU_USUARIO2);
-            int opc = leerEntero(Constantes.ELEGIR_OPCION);
+            mostrarMensaje(Constantes.MENU_USUARIOLOG);
+            int opcion = leerEntero(Constantes.ELEGIR_OPCION);
+            sc.nextLine();
 
-            switch (opc) {
+            switch (opcion) {
                 case 1:
-                    gestionJugador.listarJugadores().forEach(j -> mostrarMensaje(j.toString()));
+                    menuUsuarioJugadores();
                     break;
                 case 2:
-                    int id = leerEntero(Constantes.PIDE_ID_JUGADOR);
-                    try {
-                        ComprobacionId.comprobarId(id);
-                    } catch (ExcepcionIdErroneo e) {
-                        mostrarError(Constantes.ID_INVALIDO);
-                    }
-                    gestionJugador.buscarPorId(id).ifPresentOrElse(j -> {
-                                mostrarMensaje(j.toString());
-                            }, () -> mostrarError(Constantes.JUGADOR_NO_ENCONTRADO)
-                    );
-                    break;
-                case 3:
-                    insertarJugadorManual();
+                    menuUsuarioEquipos();
                     break;
                 case 0:
                     volver = true;
@@ -488,8 +488,106 @@ public class EntradaSalida {
             }
         }
     }
+    private static void menuUsuarioJugadores() throws ExcepcionIdErroneo {
+        boolean volver = false;
+        while (!volver) {
+            mostrarSeparador(Constantes.SEPARADOR);
+            mostrarMensaje(Constantes.MENU_USUARIO2);
+            int opcion = leerEntero(Constantes.ELEGIR_OPCION);
+            sc.nextLine();
 
-    private void insertarEquipoManual() {
+            switch (opcion) {
+                case 1:
+                    gestionJugador.listarJugadores().forEach(j -> mostrarMensaje(j.toString()));
+                    break;
+                case 2:
+                    int idBuscar = leerEntero("Introduce ID del jugador:");
+                    gestionJugador.buscarPorId(idBuscar).ifPresentOrElse(
+                            j -> mostrarMensaje(j.toString()),
+                            () -> mostrarError("Jugador no encontrado."));
+                    break;
+                case 3:
+                    filtrarJugadoresPorEquipo();
+                    break;
+                case 4:
+                    int idEdad = leerEntero("Introduce ID del jugador:");
+                    gestionJugador.buscarPorId(idEdad).ifPresentOrElse(
+                            j -> mostrarMensaje("Edad: " + j.calcularEdad() + " años"),
+                            () -> mostrarError("Jugador no encontrado."));
+                    break;
+                case 5:
+                    int idProm = leerEntero("Introduce ID del jugador:");
+                    int partidos = leerEntero("Introduce número de partidos jugados:");
+                    gestionJugador.buscarPorId(idProm).ifPresentOrElse(
+                            j -> mostrarMensaje("Promedio de goles por partido: " + j.calcularPromedioGolesPorPartido(partidos)),
+                            () -> mostrarError("Jugador no encontrado."));
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    mostrarError(Constantes.OPCION_INVALIDA);
+            }
+        }
+    }
+    private static void menuUsuarioEquipos() throws ExcepcionIdErroneo {
+        boolean volver = false;
+        while (!volver) {
+            mostrarSeparador(Constantes.SEPARADOR);
+            mostrarMensaje(Constantes.MENU_USUARIO3);
+            int opcion = leerEntero(Constantes.ELEGIR_OPCION);
+            sc.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    gestionEquipo.listarEquipos().forEach(e -> mostrarMensaje(e.toString()));
+                    break;
+                case 2:
+                    String ciudad = sc.nextLine();
+                    Set<Equipo> equipos = gestionEquipo.listarEquipos().stream()
+                            .filter(e -> e.getCiudad().equalsIgnoreCase(ciudad))
+                            .collect(Collectors.toSet());
+                    if (!equipos.isEmpty()) {
+                        equipos.forEach(e -> mostrarMensaje(e.toString()));
+                    } else {
+                        mostrarError("No se encontraron equipos en esa ciudad.");
+                    }
+                    break;
+                case 3:
+                    int idEquipo = leerEntero("Introduce ID del equipo:");
+                    gestionEquipo.buscarPorId(idEquipo).ifPresentOrElse(
+                            e -> mostrarMensaje("Entrenador: " + e.getEntrenador()),
+                            () -> mostrarError("Equipo no encontrado."));
+                    break;
+                case 4:
+                    Set<Equipo> ordenados = gestionEquipo.listarEquiposOrdenadosPorNombre();
+                    ordenados.forEach(e -> mostrarMensaje(e.toString()));
+                    break;
+                case 5:
+                    sc.nextLine();
+                    System.out.println("Introduce el nombre del equipo:");
+                    String nombreEquipo = sc.nextLine();
+                    Set<Jugador> jugadores = gestionJugador.listarJugadores().stream()
+                            .filter(j -> j.getEquipo().equalsIgnoreCase(nombreEquipo))
+                            .collect(Collectors.toSet());
+                    if (!jugadores.isEmpty()) {
+                        mostrarMensaje("Jugadores del equipo " + nombreEquipo + ":");
+                        jugadores.forEach(j -> mostrarMensaje(j.toString()));
+                    } else {
+                        mostrarError("No se encontraron jugadores para ese equipo.");
+                    }
+                    break;
+                case 0:
+                    volver = true;
+                    break;
+                default:
+                    mostrarError(Constantes.OPCION_INVALIDA);
+                    break;
+            }
+        }
+    }
+
+    private static void insertarEquipoManual() {
         System.out.println("Introduce ID del equipo:");
         int id = leerEntero("");
         sc.nextLine();
@@ -540,7 +638,7 @@ public class EntradaSalida {
             mostrarError("Ya existe un jugador con ese ID.");
         }
     }
-    private void filtrarJugadoresPorEquipo() {
+    private static void filtrarJugadoresPorEquipo() {
         System.out.println("Introduce nombre del equipo para filtrar:");
         String equipo = sc.nextLine();
         Set<Jugador> filtrados = gestionJugador.filtrarPorEquipo(equipo);
@@ -550,7 +648,6 @@ public class EntradaSalida {
             mostrarError("No se encontraron jugadores para el equipo: " + equipo);
         }
     }
-
 
 }
 
