@@ -30,6 +30,7 @@ public class GestionJugadorImplementacion implements GestionJugador{
         return jugadorDAO.insertarJugador(jugador);
     }
 
+
     @Override
     public boolean eliminarJugador(Jugador jugador) {
         return jugadorDAO.eliminarJugador(jugador);
@@ -51,8 +52,20 @@ public class GestionJugadorImplementacion implements GestionJugador{
     }
 
     @Override
-    public void mostrarEstadisticasJugador() {
-
+    public String mostrarEstadisticasJugador(int id) throws ExcepcionIdErroneo {
+        Optional<Jugador> jugadorOpt = buscarPorId(id);
+        if (jugadorOpt.isPresent()) {
+            Jugador j = jugadorOpt.get();
+            StringBuilder sb = new StringBuilder();
+            sb.append("Jugador: ").append(j.getNombre()).append("\n");
+            sb.append("Equipo: ").append(j.getEquipo()).append("\n");
+            sb.append("Edad: ").append(j.calcularEdad()).append("\n");
+            sb.append("Goles: ").append(j.getGoles()).append("\n");
+            sb.append("Asistencias: ").append(j.getAsistencias()).append("\n");
+            return sb.toString();
+        } else {
+            return "Jugador no encontrado";
+        }
     }
 
     @Override

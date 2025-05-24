@@ -13,7 +13,7 @@ public interface GestionJugador{
     public Jugador obtenerJugadorMasJoven();
     public Jugador obtenerJugadorMasGoleador();
     public Set<Jugador> listarJugadores();
-    public void mostrarEstadisticasJugador();
+    public String mostrarEstadisticasJugador(int id) throws ExcepcionIdErroneo;
     public Set<Jugador> listarJugadoresPorEdadAscendente();
     public Set<Jugador> filtrarPorEquipo(String nombreEquipo);
     public Optional<Jugador> buscarPorId(int id) throws ExcepcionIdErroneo;

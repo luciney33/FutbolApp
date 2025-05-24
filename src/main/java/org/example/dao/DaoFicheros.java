@@ -13,6 +13,33 @@ public class DaoFicheros {
     public static Set<Jugador> leerJugadores() {
         return null;
     }
+    public static void crearFicheroAdminPorDefecto() {
+        File fichero = new File(Constantes.FICHERO_ADMI);
+        if (!fichero.exists()) {
+            List<Usuario> adminUnico = new ArrayList<>();
+            adminUnico.add(new Usuario("admi", "1234"));
+            try {
+                ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fichero));
+                os.writeObject(adminUnico);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+    public static List<Usuario> leerAdmiBinario() {
+        File fichero = new File(Constantes.FICHERO_ADMI);
+        List<Usuario> admins = new ArrayList<>();
+        if (!fichero.exists()) {
+            return admins;
+        }
+        try {
+            ObjectInputStream is = new ObjectInputStream(new FileInputStream(fichero));
+            admins = (List<Usuario>) is.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return admins;
+    }
 
     public static List<Usuario> leerUsuariosBinario(){
         List<Usuario> lista = new ArrayList<>();
