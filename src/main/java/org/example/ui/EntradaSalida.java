@@ -28,7 +28,7 @@ public class EntradaSalida {
         DaoFicheros.crearFicheroAdminPorDefecto();
     }
 
-    private static void mostrarEstadisticasJugadorUI() throws ExcepcionIdErroneo {
+    private static void mostrarEstadisticasJugador() throws ExcepcionIdErroneo {
         int id = leerEntero("Introduce el ID del jugador para ver estadísticas:");
         String estadisticas = gestionJugador.mostrarEstadisticasJugador(id);
         mostrarMensaje(estadisticas);
@@ -194,8 +194,7 @@ public class EntradaSalida {
                 case 2:
                     gestionJugador.listarJugadores().forEach(j -> mostrarMensaje(j.toString()));
                     break;
-
-                case 3: {
+                case 3:
                     int id = leerEntero(Constantes.PIDE_ID_JUGADOR);
                     try {
                         ComprobacionId.comprobarId(id);
@@ -214,13 +213,12 @@ public class EntradaSalida {
                         }
                     }, () -> mostrarError(Constantes.JUGADOR_NO_ENCONTRADO));
                     break;
-                }
 
                 case 4:
                     insertarJugadorManual();
                     break;
 
-                case 5: {
+                case 5:
                     int idAsis = leerEntero(Constantes.PIDE_ID_JUGADOR);
                     try {
                         ComprobacionId.comprobarId(idAsis);
@@ -239,26 +237,8 @@ public class EntradaSalida {
                         }
                     }, () -> mostrarError(Constantes.JUGADOR_NO_ENCONTRADO));
                     break;
-                }
 
-                case 6: {
-                    Jugador joven = gestionJugador.obtenerJugadorMasJoven();
-                    if (joven != null) {
-                        mostrarMensaje("Jugador más joven:\n" + joven.toString());
-                    } else {
-                        mostrarError("No hay jugadores registrados.");
-                    }
-
-                    Jugador goleador = gestionJugador.obtenerJugadorMasGoleador();
-                    if (goleador != null) {
-                        mostrarMensaje("Jugador más goleador:\n" + goleador.toString());
-                    } else {
-                        mostrarError("No hay jugadores registrados.");
-                    }
-                    break;
-                }
-
-                case 7: {
+                case 6:
                     int idEliminar = leerEntero(Constantes.PIDE_ID_JUGADOR);
                     try {
                         ComprobacionId.comprobarId(idEliminar);
@@ -274,74 +254,6 @@ public class EntradaSalida {
                             mostrarError("No se pudo eliminar el jugador.");
                         }
                     }, () -> mostrarError(Constantes.JUGADOR_NO_ENCONTRADO));
-                    break;
-                }
-
-                case 8: {
-                    Jugador joven = gestionJugador.obtenerJugadorMasJoven();
-                    if (joven != null) {
-                        mostrarMensaje("Jugador más joven:\n" + joven.toString());
-                    } else {
-                        mostrarError("No hay jugadores registrados.");
-                    }
-                    break;
-                }
-
-                case 9: {
-                    Jugador goleador = gestionJugador.obtenerJugadorMasGoleador();
-                    if (goleador != null) {
-                        mostrarMensaje("Jugador más goleador:\n" + goleador.toString());
-                    } else {
-                        mostrarError("No hay jugadores registrados.");
-                    }
-                    break;
-                }
-
-                case 10: {
-                    Set<Jugador> lista = gestionJugador.listarJugadoresPorEdadAscendente();
-                    if (!lista.isEmpty()) {
-                        lista.forEach(j -> mostrarMensaje(j.toString()));
-                    } else {
-                        mostrarError("No hay jugadores registrados.");
-                    }
-                    break;
-                }
-
-                case 11: {
-                    filtrarJugadoresPorEquipo();
-                    break;
-                }
-
-                case 12: {
-                    int idBuscar = leerEntero(Constantes.PIDE_ID_JUGADOR);
-                    try {
-                        ComprobacionId.comprobarId(idBuscar);
-                    } catch (ExcepcionIdErroneo e) {
-                        mostrarError(Constantes.ID_INVALIDO);
-                        break;
-                    }
-                    gestionJugador.buscarPorId(idBuscar).ifPresentOrElse(j -> mostrarMensaje(j.toString()),
-                            () -> mostrarError(Constantes.JUGADOR_NO_ENCONTRADO));
-                    break;
-                }
-                case 13:
-                    int id1 = leerEntero("Introduce ID del primer jugador:");
-                    int id2 = leerEntero("Introduce ID del segundo jugador:");
-
-                    Optional<Jugador> jugador1 = gestionJugador.buscarPorId(id1);
-                    Optional<Jugador> jugador2 = gestionJugador.buscarPorId(id2);
-
-                    if (jugador1.isPresent() && jugador2.isPresent()) {
-                        if (jugador1.get().haSuperadoA(jugador2.get())) {
-                            mostrarMensaje(jugador1.get().getNombre() + " ha marcado más goles que " + jugador2.get().getNombre());
-                        } else if (jugador2.get().haSuperadoA(jugador1.get())) {
-                            mostrarMensaje(jugador2.get().getNombre() + " ha marcado más goles que " + jugador1.get().getNombre());
-                        } else {
-                            mostrarMensaje("Ambos jugadores tienen la misma cantidad de goles.");
-                        }
-                    } else {
-                        mostrarError("Uno o ambos jugadores no fueron encontrados.");
-                    }
                     break;
                 case 0:
                     volver = true;
@@ -511,17 +423,66 @@ public class EntradaSalida {
                             () -> mostrarError("Jugador no encontrado."));
                     break;
                 case 5:
+                    mostrarEstadisticasJugador();
+                    break;
+                case 6:
                     int idProm = leerEntero("Introduce ID del jugador:");
                     int partidos = leerEntero("Introduce número de partidos jugados:");
                     gestionJugador.buscarPorId(idProm).ifPresentOrElse(
                             j -> mostrarMensaje("Promedio de goles por partido: " + j.calcularPromedioGolesPorPartido(partidos)),
                             () -> mostrarError("Jugador no encontrado."));
                     break;
+                case 7:
+                    Jugador joven = gestionJugador.obtenerJugadorMasJoven();
+                    if (joven != null) {
+                        mostrarMensaje("Jugador más joven:\n" + joven.toString());
+                    } else {
+                        mostrarError("No hay jugadores registrados.");
+                    }
+                    break;
+
+                case 8:
+                    Jugador goleador = gestionJugador.obtenerJugadorMasGoleador();
+                    if (goleador != null) {
+                        mostrarMensaje("Jugador más goleador:\n" + goleador.toString());
+                    } else {
+                        mostrarError("No hay jugadores registrados.");
+                    }
+                    break;
+                case 9:
+                    Set<Jugador> lista = gestionJugador.listarJugadoresPorEdadAscendente();
+                    if (!lista.isEmpty()) {
+                        lista.forEach(j -> mostrarMensaje(j.toString()));
+                    } else {
+                        mostrarError("No hay jugadores registrados.");
+                    }
+                    break;
+
+                case 10:
+                    int id1 = leerEntero("Introduce ID del primer jugador:");
+                    int id2 = leerEntero("Introduce ID del segundo jugador:");
+
+                    Optional<Jugador> jugador1 = gestionJugador.buscarPorId(id1);
+                    Optional<Jugador> jugador2 = gestionJugador.buscarPorId(id2);
+
+                    if (jugador1.isPresent() && jugador2.isPresent()) {
+                        if (jugador1.get().haSuperadoA(jugador2.get())) {
+                            mostrarMensaje(jugador1.get().getNombre() + " ha marcado más goles que " + jugador2.get().getNombre());
+                        } else if (jugador2.get().haSuperadoA(jugador1.get())) {
+                            mostrarMensaje(jugador2.get().getNombre() + " ha marcado más goles que " + jugador1.get().getNombre());
+                        } else {
+                            mostrarMensaje("Ambos jugadores tienen la misma cantidad de goles.");
+                        }
+                    } else {
+                        mostrarError("Uno o ambos jugadores no fueron encontrados.");
+                    }
+                    break;
                 case 0:
                     volver = true;
                     break;
                 default:
                     mostrarError(Constantes.OPCION_INVALIDA);
+                    break;
             }
         }
     }

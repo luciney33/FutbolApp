@@ -5,18 +5,11 @@ public class Constantes {
     public static final String MENU_ADMIN1 = "---- ADMINISTRADOR ----\n1. Gestion Jugadores\n2. Gestion de Equipos";
     public static final String MENU_ADMIN2 = "[Gestion Jugadores]\n"
             + "1. Insertar jugador aleatorio\n"
-            + "2. Ver jugadores\n"
+            + "2. Listar jugadores\n"
             + "3. Modificar goles\n"
             + "4. Insertar jugador manual\n"
             + "5. Modificar asistencias\n"
-            + "6. Mostrar estadísticas\n"
-            + "7. Eliminar jugador\n"
-            + "8. Mostrar jugador más joven\n"
-            + "9. Mostrar jugador más goleador\n"
-            + "10. Listar jugadores por edad ascendente\n"
-            + "11. Filtrar jugadores por equipo\n"
-            + "12. Buscar jugador por ID\n"
-            + "13. Comparar goles entre dos jugadores\n"
+            + "6. Eliminar jugador\n"
             + "0. Volver";
     public static final String MENU_ADMIN3 = "[Gestion Equipos]\n" +
             "1. Insertar equipo manualmente\n" +
@@ -26,14 +19,19 @@ public class Constantes {
             "5. Eliminar equipo\n" +
             "0. Volver";
     public static final String MENU_USUARIO = "1. INICAR SESION\n2. REGISTRARSE\n0. VOLVER";
-    public static final String MENU_USUARIOLOG = "---- USUARIO ----\n 1. Ver información de jugadores\n" +
+    public static final String MENU_USUARIOLOG = "---- USUARIO ----\n1. Ver información de jugadores\n" +
             "2. Ver información de equipos\n" +
             "0. Volver";
-    public static final String MENU_USUARIO2 = " 1. Listar todos los jugadores\n" +
+    public static final String MENU_USUARIO2 = "1. Listar todos los jugadores\n" +
             "2. Buscar jugador por ID\n" +
             "3. Buscar jugadores por equipo\n" +
             "4. Ver edad de un jugador\n" +
-            "5. Calcular promedio de goles por partido\n" +
+            "5. Mostrar estadísticas\n"+
+            "6. Calcular promedio de goles por partido\n" +
+            "7. Mostrar jugador más joven\n"+
+            "8. Mostrar jugador más goleador\n"+
+            "9. Listar jugadores por edad ascendente\n"+
+            "10. Comparar goles entre dos jugadores\n"+
             "0. Volver";
     public static final String MENU_USUARIO3 = "1. Listar todos los equipos\n" +
             "2. Buscar equipos por ciudad\n" +
