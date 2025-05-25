@@ -520,7 +520,6 @@ public class EntradaSalida {
                     ordenados.forEach(e -> mostrarMensaje(e.toString()));
                     break;
                 case 5:
-                    sc.nextLine();
                     System.out.println("Introduce el nombre del equipo:");
                     String nombreEquipo = sc.nextLine();
                     Set<Jugador> jugadores = gestionJugador.listarJugadores().stream()
