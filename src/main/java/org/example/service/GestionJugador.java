@@ -17,7 +17,4 @@ public interface GestionJugador{
     public Set<Jugador> listarJugadoresPorEdadAscendente();
     public Set<Jugador> filtrarPorEquipo(String nombreEquipo);
     public Optional<Jugador> buscarPorId(int id) throws ExcepcionIdErroneo;
-    public void crearFicheros() throws IOException;
-    public boolean cargarFichero() throws IOException;
-    public boolean escribirFichero() throws IOException;
 }

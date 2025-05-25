@@ -61,6 +61,8 @@ public class Constantes {
     public static final String INICIOSESION = "Se inicio correctamente su sesion. BIENVENIDO ";
     public static final String FICHERO_USUARIOS = "usuarios.dat";
     public static final String FICHERO_ADMI = "admi.dat";
+    public static final String FICHERO_JUGADORES_JSON = "data/jugadores.json";
+    public static final String FICHERO_EQUIPOS_TXT = "data/equipos.txt";
     public static final String ERROR_ADMI = "ERROR: No hay administradores registrados";
     public static final String ID_INVALIDO = "ID Invalido: ";
 }

@@ -83,19 +83,4 @@ public class GestionJugadorImplementacion implements GestionJugador{
         return jugadorDAO.buscarPorId(id);
     }
 
-    @Override
-    public void crearFicheros() throws IOException {
-
-    }
-
-    @Override
-    public boolean cargarFichero() throws IOException {
-        return false;
-    }
-
-    @Override
-    public boolean escribirFichero() throws IOException {
-        return false;
-    }
-
 }

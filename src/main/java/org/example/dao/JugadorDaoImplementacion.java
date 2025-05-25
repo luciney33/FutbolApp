@@ -32,7 +32,7 @@ public class JugadorDaoImplementacion implements JugadorDAO {
         Optional<Jugador> existe = buscarPorId(jugador.getId());
         if (existe.isEmpty()) {
             insertarSi = true;
-            liga.getJugadores().add(jugador);
+            liga.insertarJugador(jugador);
         } else {
             log.error("No existe el id");
             insertarSi = false;
@@ -43,7 +43,13 @@ public class JugadorDaoImplementacion implements JugadorDAO {
 
     @Override
     public boolean eliminarJugador(Jugador jugador) {
-        return liga.getJugadores().remove(jugador);
+        boolean eliminado = liga.getJugadores().contains(jugador);
+        if (eliminado) {
+            liga.eliminarJugador(jugador);
+        } else {
+            log.error("Jugador no encontrado para eliminar");
+        }
+        return eliminado;
     }
 
     @Override
@@ -53,6 +59,7 @@ public class JugadorDaoImplementacion implements JugadorDAO {
             j.setGoles(goles);
             j.setAsistencias(asistencias);
             j.setEquipo(equipo);
+            DaoFicheros.guardarJugadores(liga.getJugadores());
         });
 
     }

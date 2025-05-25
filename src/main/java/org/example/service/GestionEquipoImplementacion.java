@@ -49,8 +49,8 @@ public class GestionEquipoImplementacion implements GestionEquipo {
     }
 
     @Override
-    public boolean modificarEntrenador(int id, String nuevoEntrenador) {
-        return equipoDAO.modificarEquipo(id,nuevoEntrenador);
+    public void modificarEntrenador(int id, String nuevoEntrenador) {
+        equipoDAO.modificarEquipo(id,nuevoEntrenador);
     }
 
     @Override

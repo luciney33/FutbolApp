@@ -17,7 +17,7 @@ public interface GestionEquipo {
 
         public Optional<Equipo> buscarPorCiudad(String ciudad);
 
-        public boolean modificarEntrenador(int id, String nuevoEntrenador);
+        public void modificarEntrenador(int id, String nuevoEntrenador);
 
         public Set<Equipo> listarEquipos();
 

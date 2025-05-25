@@ -85,9 +85,7 @@ public class DaoEquipoImplementacionTest {
     @Test
     @Order(4)
     void modificarEquipo_actualizaEntrenador_siExiste() {
-        boolean modificado = equipodao.modificarEquipo(1, "Nuevo Entrenador");
-
-        assertTrue(modificado);
+        equipodao.modificarEquipo(1, "Nuevo Entrenador");
         assertEquals("Nuevo Entrenador", equipo1.getEntrenador());
     }
     @Test

@@ -10,12 +10,31 @@ import java.util.Set;
 
 @Data
 public class Liga {
-    private Set<Jugador> jugadores = new HashSet<>();//lo puedo hacer con faker
+    private Set<Jugador> jugadores = new HashSet<>();//lo puedo hacer con faker/json
     private Set<Equipo> equipos = new HashSet<>();//lo puedo hacer con fichero
-    private Set<Partido> partidos = new HashSet<>();
     public Liga(){
-        //o fichero o faker
-       // jugadores = DaoFicheros.leerJugadores();
-
+        jugadores = DaoFicheros.leerJugadores();
+        equipos = DaoFicheros.leerEquipos();
     }
+
+
+    public void insertarJugador(Jugador j) {
+        jugadores.add(j);
+        DaoFicheros.guardarJugadores(jugadores);
+    }
+
+    public void eliminarJugador(Jugador j) {
+        jugadores.remove(j);
+        DaoFicheros.guardarJugadores(jugadores);
+    }
+    public void insertarEquipo(Equipo e) {
+        equipos.add(e);
+        DaoFicheros.guardarEquipos(equipos);
+    }
+
+    public void eliminarEquipo(Equipo e) {
+        equipos.remove(e);
+        DaoFicheros.guardarEquipos(equipos);
+    }
+
 }

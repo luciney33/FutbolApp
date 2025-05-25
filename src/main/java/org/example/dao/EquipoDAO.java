@@ -8,7 +8,7 @@ import java.util.Set;
 public interface EquipoDAO {
     public boolean insertarEquipo(Equipo equipo);
     public boolean eliminarEquipo(Equipo equipo);
-    public boolean modificarEquipo(int id, String entrenador);
+    public void modificarEquipo(int id, String entrenador);
     public Set<Equipo> getEquipos();
     public Optional<Equipo> buscarPorId(int id);
     public Set<Equipo> buscarPorCiudad(String ciudad);

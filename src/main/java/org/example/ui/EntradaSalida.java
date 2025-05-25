@@ -386,12 +386,7 @@ public class EntradaSalida {
                     sc.nextLine(); // limpiar buffer
                     String nuevoEntrenador = sc.nextLine();
 
-                    boolean modificado = gestionEquipo.modificarEntrenador(id, nuevoEntrenador);
-                    if (modificado) {
-                        mostrarMensaje("Entrenador modificado correctamente.");
-                    } else {
-                        mostrarError("Equipo no encontrado.");
-                    }
+                    gestionEquipo.modificarEntrenador(id, nuevoEntrenador);
                     break;
                 }
 

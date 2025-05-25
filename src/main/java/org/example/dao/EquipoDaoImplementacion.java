@@ -28,7 +28,7 @@ public class EquipoDaoImplementacion implements EquipoDAO{
         Optional<Equipo> existe = buscarPorId(equipo.getId());
         if (existe.isEmpty()){
             insertarSi = true;
-            liga.getEquipos().add(equipo);
+            liga.insertarEquipo(equipo);
         }else {
             insertarSi = false;
         }
@@ -37,20 +37,20 @@ public class EquipoDaoImplementacion implements EquipoDAO{
 
     @Override
     public boolean eliminarEquipo(Equipo equipo) {
-        return liga.getEquipos().remove(equipo);
+        boolean eliminado = liga.getEquipos().contains(equipo);
+        if (eliminado) {
+            liga.eliminarEquipo(equipo);
+        }
+        return eliminado;
     }
 
     @Override
-    public boolean modificarEquipo(int id, String entrenador) {
-        boolean encontrado = false;
-        Optional<Equipo> equipo = liga.getEquipos().stream().filter(e -> e.getId() == id).findAny();
-        if (equipo.isPresent()) {
-            equipo.get().setEntrenador(entrenador);
-            encontrado = true;
-        }else {
-            encontrado = false;
-        }
-        return encontrado;
+    public void modificarEquipo(int id, String entrenador) {
+        liga.getEquipos().stream().filter(e -> e.getId() == id).findAny().ifPresent(e ->
+        {
+            e.setEntrenador(entrenador);
+            DaoFicheros.guardarEquipos(liga.getEquipos());
+        });
     }
 
     @Override

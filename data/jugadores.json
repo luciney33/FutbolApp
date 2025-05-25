@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "nombre": "Lionel Messi",
+    "equipo": "Barcelona",
+    "goles": 30,
+    "asistencias": 20,
+    "fechaNac": "1987-06-24",
+    "posicion": "Delantero"
+  },
+  {
+    "id": 2,
+    "nombre": "Cristiano Ronaldo",
+    "equipo": "Juventus",
+    "goles": 32,
+    "asistencias": 15,
+    "fechaNac": "1985-02-05",
+    "posicion": "Delantero"
+  },
+  {
+    "id": 3,
+    "nombre": "Neymar",
+    "equipo": "Barcelona",
+    "goles": 35,
+    "asistencias": 20,
+    "fechaNac": "1985-02-05",
+    "posicion": "Delantero"
+  }
+]
