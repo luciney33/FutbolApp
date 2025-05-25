@@ -3,7 +3,6 @@ package org.example.dao;
 import lombok.Data;
 import org.example.domain.Equipo;
 import org.example.domain.Jugador;
-import org.example.domain.Partido;
 
 import java.util.HashSet;
 import java.util.Set;
